@@ -29,10 +29,23 @@ class AttackFactory
 				a.attackDelay = .1;
 				a.damage = 1;
 				a.inaccuracy = 10;
-				a.velocity.set(0, -400);
+				a.velocity.set(0, -700);
 				a.centerOffsets();
 				a.fireAnim = 'shot';
 				a.endAnim = 'shotend';
+				a.setUpdateFunction(AngleTowardsVelocity);
+				a.setCompleteFunction(stopMoving);
+				a.setHitFunction(defaultHit);
+			case AttackTypes.ENEMYSHOT1:
+				a.acceleration.set();
+				a.setSize(10, 10);
+				a.attackDelay = .1;
+				a.damage = 1;
+				a.inaccuracy = 30;
+				a.velocity.set(0, -200);
+				a.centerOffsets();
+				a.fireAnim = 'enemyshot1';
+				a.endAnim = 'enemyshot1end';
 				a.setUpdateFunction(AngleTowardsVelocity);
 				a.setCompleteFunction(stopMoving);
 				a.setHitFunction(defaultHit);
@@ -54,6 +67,9 @@ class AttackFactory
 		a.animation.play(a.endAnim);
 		a.velocity.set();
 		a.acceleration.set();
+		a.animation.play(a.endAnim);
+		new FlxTimer().start(1, function(_) {a.exists = false; });
+		
 	}
 	
 	public static function defaultHit(a:UnivAttack) {

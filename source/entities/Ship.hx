@@ -1,9 +1,13 @@
 package entities;
 
+import attacks.UnivAttack;
 import factories.EffectFactory;
 import factories.EffectFactory.EffectType;
+import flixel.input.FlxAccelerometer;
 import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
 
 /**
@@ -16,6 +20,9 @@ class Ship extends Entity
 	var thrustTimer:FlxTimer;
 	var THRUST_TIME:Float = .1;
 
+	var SHIP_HP:Float = 100;
+	var colorTween:FlxTween;
+	
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
 		super(X, Y);
@@ -24,6 +31,8 @@ class Ship extends Entity
 		animation.play('ship');
 		setSize(100, 80);
 		centerOffsets();
+		centerOrigin();
+		hp = SHIP_HP;
 		
 		thrustTimer = new FlxTimer();
 		//toggleThrust();
@@ -41,4 +50,17 @@ class Ship extends Entity
 		}, 0 );
 	}
 	
+	override public function getSignal(signal:String, ?data:Dynamic):Void 
+	{
+		switch (signal) 
+		{
+			case 'hit':
+				var a:UnivAttack = cast data;
+				FlxSpriteUtil.flicker(this, .2);
+
+				takeDamage(a.damage);
+			default:
+				
+		}
+	}
 }

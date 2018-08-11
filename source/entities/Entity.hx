@@ -3,14 +3,16 @@ package entities;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxSpriteUtil;
+import fsm.DeadFSM;
 import fsm.FSM;
 import fsm.IFSM;
+import signal.ISignal;
 
 /**
  * ...
  * @author Dave
  */
-class Entity extends FlxSprite implements IFSM
+class Entity extends FlxSprite implements IFSM implements ISignal
 {
 
 	var hp:Float = -1;
@@ -20,6 +22,7 @@ class Entity extends FlxSprite implements IFSM
 	{
 		super(X, Y, SimpleGraphic);
 		fsm = new FSM(this);
+		fsm.addtoMap('dead', new DeadFSM(this) );
 		
 	}
 	
@@ -41,7 +44,12 @@ class Entity extends FlxSprite implements IFSM
 		hp -= damage;
 		if (hp <= 0) {
 			this.alive = false;
-			FlxSpriteUtil.fadeOut(this, 1, function(_) { this.exists = false; });
+			fsm.changeState('dead');
 		}
 	}
+	
+	public function getSignal(signal:String, ?data:Dynamic):Void {
+		
+	}
+
 }

@@ -1,5 +1,6 @@
 package hud;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.tweens.FlxEase;
@@ -10,96 +11,125 @@ import flixel.util.FlxColor;
  * ...
  * @author Dave
  */
-class HUD extends FlxSpriteGroup 
+class HUD extends FlxSpriteGroup
 {
 
 	var shipSticker:FlxSprite;
-	
-	var START_POS:Float = -10;
+
+	var START_POS:Float = -30;
 	var LENGTH:Float = 400;
-	
+
 	var MAP_LOC_X:Float = 310;
 	var MAP_LOC_Y:Float = 310;
 	var MAP_SIZE:Int = 70;
-	
+
 	var mapStamp:FlxSprite;
 	var map:FlxSprite;
 	var playerMarker:FlxSprite;
-	
+
 	var shipPointer:FlxSprite;
-	
-	public function new() 
+
+	var shipHealth:Bar;
+
+	var mapIcons:FlxSpriteGroup;
+
+	public function new()
 	{
 		super();
 		mapStamp = new FlxSprite();
 		mapStamp.makeGraphic(MAP_SIZE, MAP_SIZE, FlxColor.GRAY);
-	
-		
+
 		scrollFactor.set();
 		var line = new FlxSprite();
 		line.frames = H.getFrames();
 		line.animation.frameName = 'travelbar';
 		line.scrollFactor.set();
-		
+
 		shipSticker = new FlxSprite();
 		shipSticker.scrollFactor.set();
 		shipSticker.frames = H.getFrames();
 		shipSticker.animation.frameName = 'icons_hellbaticon_0';
 		shipSticker.setSize(32, 32);
-		centerOffsets();
-		shipSticker.y -= 12;
-		FlxTween.tween(shipSticker, {y:0}, 3, {ease:FlxEase.quadInOut, type:FlxTween.PINGPONG});
-		
+		shipSticker.centerOffsets();
+		shipSticker.y = 5;
+		FlxTween.tween(shipSticker, {y:10}, 1, {ease:FlxEase.quadInOut, type:FlxTween.PINGPONG});
+
 		playerMarker = new FlxSprite();
 		playerMarker.makeGraphic(3,3,FlxColor.RED);
-		
+
 		shipPointer = new FlxSprite();
 		shipPointer.frames = H.getFrames();
 		shipPointer.animation.frameName = 'icons_pointer_0';
-		shipPointer.setSize(64, 64);
+		shipPointer.setSize(32, 32);
+		shipPointer.centerOffsets();
+
 		shipPointer.centerOrigin();
 		shipPointer.scrollFactor.set();
-		
-		
-		//map = new FlxSprite(MAP_LOC_X, MAP_LOC_Y);
-		//map.makeGraphic(MAP_SIZE, MAP_SIZE, FlxColor.GRAY);
-		//map.scrollFactor.set();
-		//map.stamp(mapStamp);
-		add(shipPointer);
+
+		mapIcons = new FlxSpriteGroup();
+
+		shipHealth = new Bar(H.getShip(), 'hp', 100);
+		shipHealth.scrollFactor.set();
+		shipHealth.y = FlxG.height - 20;
+					   //map = new FlxSprite(MAP_LOC_X, MAP_LOC_Y);
+					   //map.makeGraphic(MAP_SIZE, MAP_SIZE, FlxColor.GRAY);
+					   //map.scrollFactor.set();
+					   //map.stamp(mapStamp);
+					   add(shipPointer);
 		add(line);
 		add(shipSticker);
 		//add(map);
 		add(playerMarker);
+		add(shipHealth);
 	}
-	
-	public function setShipStickerPosition(ratio:Float) {
+
+	public function setShipStickerPosition(ratio:Float)
+	{
 		shipSticker.x = LENGTH * ratio + START_POS;
-		
+
 	}
-	
-	public function updateShipPointer() {
+
+	public function updateShipPointer()
+	{
 		shipPointer.angle = H.getPlayer().getMidpoint().angleBetween(H.getShip().getMidpoint());
 		var player = H.getPlayer();
 		var p = player.getScreenPosition();
 		shipPointer.setPosition(p.x, p.y);
 	}
-	
-	override public function update(dt:Float) {
+
+	override public function update(dt:Float)
+	{
 		super.update(dt);
 		var p = H.getPlayer().getMidpoint();
-		
+
 		updatePlayerMarker(p.x-16,p.y - 16);
 		updateShipPointer();
 		p.put();
 	}
-	
-	public function updatePlayerMarker(x:Float, y:Float) {
+
+	public function updatePlayerMarker(x:Float, y:Float)
+	{
 		var xx = x / H.LEVEL_SIZE;
 		var yy = y / H.LEVEL_SIZE;
-		
+
 		playerMarker.setPosition(MAP_LOC_X + MAP_SIZE * xx - 1, MAP_LOC_Y + MAP_SIZE * yy - 1);
 	}
-	
-	
-	
+
+	public function getIcon():FlxSprite
+	{
+		var i = mapIcons.getFirstAvailable();
+		if (i == null)
+		{
+			i = new FlxSprite();
+			i.makeGraphic(1, 1, FlxColor.WHITE);
+			mapIcons.add(i);
+		}
+		return i;
+	}
+
+	public function updateShipSticker(currentTime:Float, maxTime:Float)
+	{
+		shipSticker.x = (currentTime / maxTime) * LENGTH + START_POS;
+	}
+
 }

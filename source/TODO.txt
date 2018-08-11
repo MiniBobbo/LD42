@@ -1,0 +1,29 @@
+MVP
+Basic Main Menu w/ title
+Win State
+Lose State
+Sound
+Enemy can shoot the player
+* Single level with multiple waves of enemies
+* One enemy type
+* Enemy can shoot the ship
+* Ship can be destroyed
+* Music
+
+Phase 1
+Minimap that show the player, ship and enemies
+Ship Health bar
+
+
+Music/Sound MVP
+Player Shot
+Enemy Shot
+Player Hit
+Ship Hit
+Explosion
+
+Phase 1
+Menu sounds
+Additional attacks
+Alarm for incoming wave
+Enemies explode

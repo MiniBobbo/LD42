@@ -46,6 +46,7 @@ class EffectFactory
 				e.animation.play('thrust');
 				e.setSize(32, 32);
 				e.centerOffsets();
+				e.centerOrigin();
 				e.scale.set(2, 2);
 				e.reset(position.x - e.width / 2, position.y - e.height / 2);
 				e.velocity.x = -600;

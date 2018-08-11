@@ -12,9 +12,10 @@ class Enemy extends Entity
 
 	public var spawnExactly:Bool = false;
 	
-	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
+	
+	public function new() 
 	{
-		super(X, Y, SimpleGraphic);
+		super();
 		
 	}
 	

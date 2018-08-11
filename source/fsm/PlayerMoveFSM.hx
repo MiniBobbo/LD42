@@ -11,7 +11,7 @@ class PlayerMoveFSM extends FSMModule
 {
 	var p:Player;
 	var DRAG:Float = 300;
-	var MAX_SPEED:Float = 50;
+	var MAX_SPEED:Float = 200;
 	var ACCEL:Float = 300;
 	var ACCEL_MULT:Float = 3;
 	
@@ -25,6 +25,7 @@ class PlayerMoveFSM extends FSMModule
 	override public function changeTo() 
 	{
 		p.drag.set(DRAG, DRAG);
+		p.maxVelocity.set(MAX_SPEED, MAX_SPEED);
 	}
 	
 	override public function update(dt:Float) 

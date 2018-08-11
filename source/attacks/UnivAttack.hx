@@ -8,6 +8,7 @@ import flixel.util.FlxTimer;
 
 enum AttackTypes {
 	SHOT;
+	ENEMYSHOT1;
 }
 
 /**
@@ -49,6 +50,8 @@ class UnivAttack extends FlxSprite
 		frames = H.getFrames();
 		animation.addByPrefix('shot', 'attacks_shot_start_', 12, false);
 		animation.addByPrefix('shotend', 'attacks_shot_end_', 12, false);
+		animation.addByPrefix('enemyshot1', 'attacks_enemyshot1_start_', 12, false);
+		animation.addByPrefix('enemyshot1end', 'attacks_enemyshot1_end_', 12, false);
 	}
 	
 	override public function update(elapsed:Float):Void 

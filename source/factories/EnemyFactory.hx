@@ -20,6 +20,7 @@ class EnemyFactory
 				
 		}
 		
+		H.gs.signalable.push(e);
 		return e;
 	}
 	

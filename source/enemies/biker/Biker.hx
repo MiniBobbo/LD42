@@ -1,5 +1,7 @@
 package enemies.biker;
 
+import attacks.UnivAttack.AttackTypes;
+import factories.AttackFactory;
 import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
@@ -11,7 +13,6 @@ import flixel.util.FlxColor;
 class Biker extends Enemy 
 {
 
-	var moveSpeed:Float = 60;
 	
 	public function new() 
 	{
@@ -21,17 +22,36 @@ class Biker extends Enemy
 		animation.play('ride');
 		setSize(70, 35);
 		centerOffsets();
-		hp = 10;
+		centerOrigin();
+		hp = 6;
+		
+		fsm.addtoMap('move', new BikerMoveFSM(this));
+		fsm.addtoMap('attack', new BikerAttackFSM(this));
+		fsm.changeState('move');
 		
 	}
 
+	public function shootShip() {
+		var a = H.getEnemyAttack();
+		AttackFactory.configAttack(a, AttackTypes.ENEMYSHOT1);
+		var p = FlxPoint.get();
+		getMidpoint(p);
+		p.x -= 15;
+		p.y -= 6;
+		
+		a.initAttack(p, 3);
+		a.velocity.rotate(FlxPoint.weak(), p.angleBetween(H.getShip().getMidpoint()));
+		p.put();
+	}
+	
 	
 	override public function update(elapsed:Float):Void 
 	{
-		var p = FlxPoint.get(0, -moveSpeed);
-		p.rotate(FlxPoint.weak(), getMidpoint().angleBetween(H.getShip().getMidpoint()));
-		velocity.copyFrom(p);
-		p.put();
 		super.update(elapsed);
+	}
+	
+	public function fireAtPlayer() {
+		var a = H.getEnemyAttack();
+		
 	}
 }

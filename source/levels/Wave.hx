@@ -12,28 +12,32 @@ import flixel.math.FlxPoint;
 class Wave 
 {
 
-	public var spawned:Bool = false;
+	public var spawned(default, null):Bool = false;
 	public var enemyCount:Int;
 	public var enemyType:EnemyTypes;
 	public var spawnPosition:FlxPoint;
-	public var timeToSpawn:Float;
+	public var timeToSpawn:Int;
 	
-	public var enemies:Array<Enemy>;
+	public var enemies(default, null):Array<Enemy>;
 	
-	public function new() 
+	public function new(timeToSpawn:Int, numberOfEnemies:Int, type:EnemyTypes) 
 	{
+		this.timeToSpawn = timeToSpawn;
 		enemies = [];
 		spawnPosition = new FlxPoint();
+		enemyCount = numberOfEnemies;
 	}
 	
-	public function spawnWave():Array<Enemy> {
-
-		
+	
+	public function spawnWave(randomLocation:Bool = true):Array<Enemy> {
+		if (randomLocation)
+			pickRandomLocation();
 		spawned = true;
 		for (i in 0...enemyCount) {
 			var e = EnemyFactory.createEnemy(enemyType);
 			placeEnemy(e);
 			enemies.push(e);
+			H.addEnemy(e);
 		}
 		return enemies;
 	}
@@ -45,7 +49,7 @@ class Wave
 		} else {
 			throw 'Not implemented yet stupid.';
 		}
-		trace('random posistion ' + spawnPosition.toString());
+		//trace('random posistion ' + spawnPosition.toString());
 	}
 	
 	private function placeEnemy(e:Enemy) {
