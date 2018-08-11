@@ -2,6 +2,7 @@ package entities;
 
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.util.FlxTimer;
 
 /**
  * ...
@@ -9,7 +10,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class Effects extends FlxSprite 
 {
-
+	var lifespanTimer:FlxTimer;
 	public function new() 
 	{
 		super();
@@ -17,7 +18,15 @@ class Effects extends FlxSprite
 		animation.addByPrefix('thrust', 'icons_thrust_', 12, false);
 		animation.play('thrust');
 		kill();
-		
+		lifespanTimer = new FlxTimer();
+	}
+	
+	/**
+	 * Kills this effect after a given time.
+	 * @param	lifetime
+	 */
+	public function startTimer(lifetime:Float) {
+		lifespanTimer.start(lifetime, function(_) {kill(); } );
 	}
 	
 }

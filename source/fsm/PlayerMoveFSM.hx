@@ -54,6 +54,10 @@ class PlayerMoveFSM extends FSMModule
 			
 		}
 	
+		if (FlxG.mouse.pressed) {
+			p.shoot();
+		}
+		
 		updateAnimation();
 	}
 	
@@ -63,7 +67,8 @@ class PlayerMoveFSM extends FSMModule
 			p.flipX = false;
 		else
 			p.flipX = true;
-			
+		
+		p.arm.angle = tempAngle;	
 		if (Math.abs(tempAngle) < 45)
 			p.animation.play('up');
 		else if (Math.abs(tempAngle) < 135)

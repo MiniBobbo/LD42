@@ -1,5 +1,6 @@
 package states;
 
+import attacks.UnivAttack;
 import entities.Effects;
 import entities.Player;
 import entities.Ship;
@@ -12,6 +13,7 @@ import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxPoint.FlxCallbackPoint;
 import flixel.util.FlxColor;
+import hud.Crosshair;
 import inputhelper.InputHelper;
 
 /**
@@ -26,10 +28,16 @@ class GameState extends FlxState
 	var bg3:FlxBackdrop;
 	
 	var camTarget:FlxSprite;
+	var crosshair:FlxSprite;
 	
 	var p:Player;
+	var parm:FlxSprite;
+	var ship:Ship;
+	
+	var playerAttacks:FlxTypedGroup<UnivAttack>;
 	
 	var effects:FlxTypedGroup<Effects>;
+	var bgeffects:FlxTypedGroup<Effects>;
 	
 	public function new() 
 	{
@@ -39,34 +47,59 @@ class GameState extends FlxState
 	override public function create():Void 
 	{
 		super.create();
+		H.registerGameState(this);
 		FlxG.worldBounds.set(0, 0, H.LEVEL_SIZE, H.LEVEL_SIZE);
 		createBG();
-		effects = new FlxTypedGroup<Effects>();
-		EffectFactory.registerEffects(effects);
-		add(effects);
 		
-		test();
 		createPlayer();
+		
+		createGroups();
+		
 		
 		camTarget = new FlxSprite(0, 0);
 		camTarget.makeGraphic(1, 1, FlxColor.TRANSPARENT);
-		FlxG.camera.follow(p, FlxCameraFollowStyle.LOCKON );
+		crosshair = new Crosshair();
+		FlxG.mouse.visible = false;
+		FlxG.camera.follow(camTarget, FlxCameraFollowStyle.LOCKON );
 		FlxG.camera.setScrollBoundsRect(0, 0, H.LEVEL_SIZE, H.LEVEL_SIZE);
 		FlxG.watch.add(p, 'acceleration');
+		addToScene();
 	}
 	
 	
-	private function test() {
-		var s = new Ship(375, 375);
-		//s.makeGraphic(50, 50, FlxColor.BLUE);
-		add(s);
-		FlxG.camera.bgColor = FlxColor.fromRGBFloat(.2,.2,.2);
+	
+	private function createGroups() {
+		playerAttacks = new FlxTypedGroup<UnivAttack>();
+		effects = new FlxTypedGroup<Effects>();
+		EffectFactory.registerEffects(effects);
+
 	}
 	
+	private function addToScene() {
+		add(effects);
+		add(ship);
+		add(parm);
+		add(p);
+
+		add(playerAttacks);
+		add(crosshair);
+		
+	}
 	private function createPlayer(){
 		p = new Player();
 		p.setPosition(200, 200);
-		add(p);
+		parm = new FlxSprite();
+		parm.frames = H.getFrames();
+		parm.animation.frameName = 'player_arm_0';
+		parm.setSize(32, 32);
+		parm.centerOffsets();
+		parm.centerOrigin();
+		parm.setPosition(p.x, p.y);
+		p.registerArm(parm);
+		
+		ship = new Ship(375, 375);
+		ship.toggleThrust();
+		
 		
 	}
 	private function createBG() {
@@ -87,14 +120,23 @@ class GameState extends FlxState
 	{
 		InputHelper.updateKeys();
 		
-		
 		super.update(elapsed);
 		var pos = FlxG.mouse.getPosition();
-		camTarget.x = pos.x;
-		camTarget.y = pos.y;
-		
-		
-		
+		camTarget.x = (p.x + pos.x)/2;
+		camTarget.y = (p.y + pos.y)/2;
+	}
+	
+	/**
+	 * Gets the first available player attack or creates a new one if one is not available.
+	 * @return	A new player attack.
+	 */
+	public function getPlayerAttack():UnivAttack {
+		var a = playerAttacks.getFirstAvailable();
+		if (a == null) {
+			a = new UnivAttack();
+			playerAttacks.add(a);
+		}
+		return a;
 		
 	}
 }

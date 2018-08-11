@@ -1,6 +1,11 @@
 package entities;
 
+import attacks.UnivAttack.AttackTypes;
+import factories.AttackFactory;
 import factories.EffectFactory;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxTimer;
 import fsm.PlayerMoveFSM;
@@ -13,11 +18,20 @@ class Player extends Entity
 {
 
 	var thrustTimer:FlxTimer;
-	var THRUST_TIME:Float = .7;
+	var THRUST_TIME:Float = .1;
+	var attackDelay:Float;
+	
+	var attack:AttackTypes;
+	
+	public var arm:FlxSprite;
+	private var attackOffset:FlxPoint;
 	
 	public function new() 
 	{
 		super();
+		attack = AttackTypes.SHOT;
+		attackOffset = new FlxPoint(0, -20);
+		
 		frames = H.getFrames();
 		animation.addByPrefix('forward', 'player_forward_', 1, false);
 		animation.addByPrefix('idle', 'player_idle_', 1, false);
@@ -30,6 +44,11 @@ class Player extends Entity
 		fsm.addtoMap('main', new PlayerMoveFSM(this));
 		fsm.changeState('main');
 		thrustTimer = new FlxTimer();
+		toggleThrust();
+	}
+	
+	public function registerArm(arm:FlxSprite) {
+		this.arm = arm;
 	}
 	
 	public function toggleThrust(on:Bool = true) {
@@ -38,8 +57,29 @@ class Player extends Entity
 	
 	override public function update(elapsed:Float):Void 
 	{
+		attackDelay -= elapsed;
 		super.update(elapsed);
 		H.keepInBounds(this);
+		arm.setPosition(x, y);
+	}
+	
+	public function shoot() {
+		trace('shooting ' + attackDelay);
+		if (attackDelay > 0)
+		return;
+		var a = H.getPlayerAttack();
+		AttackFactory.configAttack(a, attack);
+		
+		//Find the location we should spawn the shot.
+		var p = FlxPoint.get().copyFrom(attackOffset);
+		p.rotate(FlxPoint.weak(), arm.angle);
+		var mp = getMidpoint();
+		p.x += mp.x;
+		p.y += mp.y;
+		a.initAttack(p, 3);
+		a.velocity.rotate(FlxPoint.weak(), arm.angle + FlxG.random.float(-a.inaccuracy, a.inaccuracy) );
+		
+		attackDelay = a.attackDelay;
 	}
 	
 }

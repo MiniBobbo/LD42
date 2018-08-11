@@ -1,7 +1,9 @@
 package;
+import attacks.UnivAttack;
 import flixel.FlxSprite;
 import flixel.graphics.atlas.FlxAtlas;
 import flixel.graphics.frames.FlxAtlasFrames;
+import states.GameState;
 
 /**
  * ...
@@ -10,12 +12,18 @@ import flixel.graphics.frames.FlxAtlasFrames;
 class H 
 {
 
+	private static var gs:GameState;
+	
 	public static var allowInput:Bool = true;
 	
-	public static var LEVEL_SIZE:Float = 800;
+	public static var LEVEL_SIZE:Float = 2000;
 	
 	public static function getFrames():FlxAtlasFrames {
 		return FlxAtlasFrames.fromTexturePackerJson('assets/images/SpaceRun.png', 'assets/images/SpaceRun.json'); 
+	}
+	
+	public static function registerGameState(gameState:GameState) {
+		gs = gameState;
 	}
 	
 	public static function keepInBounds(s:FlxSprite){
@@ -37,4 +45,7 @@ class H
 		}
 	}
 	
+	public static function getPlayerAttack():UnivAttack {
+		return gs.getPlayerAttack();
+	}
 }
