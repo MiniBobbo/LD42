@@ -2,7 +2,7 @@
 
 {
 	"filename": "attacks_shot_end_0",
-	"frame": {"x":169,"y":113,"w":11,"h":15},
+	"frame": {"x":74,"y":183,"w":11,"h":15},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":10,"y":9,"w":11,"h":15},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "attacks_shot_end_1",
-	"frame": {"x":184,"y":111,"w":16,"h":20},
+	"frame": {"x":79,"y":52,"w":16,"h":20},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":7,"y":7,"w":16,"h":20},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "attacks_shot_end_2",
-	"frame": {"x":202,"y":111,"w":16,"h":20},
+	"frame": {"x":74,"y":161,"w":16,"h":20},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":7,"y":7,"w":16,"h":20},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "attacks_shot_end_3",
-	"frame": {"x":220,"y":126,"w":3,"h":3},
+	"frame": {"x":97,"y":52,"w":3,"h":3},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":3,"h":3},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "attacks_shot_start_0",
-	"frame": {"x":206,"y":14,"w":7,"h":7},
+	"frame": {"x":89,"y":116,"w":7,"h":7},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":12,"y":13,"w":7,"h":7},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "attacks_shot_start_1",
-	"frame": {"x":223,"y":1,"w":11,"h":11},
+	"frame": {"x":87,"y":198,"w":11,"h":11},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":10,"y":11,"w":11,"h":11},
@@ -56,8 +56,8 @@
 },
 {
 	"filename": "attacks_shot_start_2",
-	"frame": {"x":220,"y":113,"w":11,"h":15},
-	"rotated": true,
+	"frame": {"x":74,"y":200,"w":11,"h":15},
+	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":10,"y":9,"w":11,"h":15},
 	"sourceSize": {"w":32,"h":32},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "attacks_shot_start_3",
-	"frame": {"x":206,"y":1,"w":11,"h":15},
+	"frame": {"x":74,"y":217,"w":11,"h":15},
 	"rotated": true,
 	"trimmed": true,
 	"spriteSourceSize": {"x":10,"y":9,"w":11,"h":15},
@@ -73,8 +73,26 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "biker_ride_0",
+	"frame": {"x":38,"y":1,"w":75,"h":39},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":28,"w":75,"h":39},
+	"sourceSize": {"w":96,"h":96},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "biker_turret_0",
+	"frame": {"x":73,"y":78,"w":23,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":37,"y":24,"w":23,"h":36},
+	"sourceSize": {"w":96,"h":96},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "crosshair_flash_0",
-	"frame": {"x":1,"y":99,"w":32,"h":32},
+	"frame": {"x":38,"y":276,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -83,7 +101,7 @@
 },
 {
 	"filename": "crosshair_flash_1",
-	"frame": {"x":35,"y":99,"w":32,"h":32},
+	"frame": {"x":38,"y":310,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -92,7 +110,7 @@
 },
 {
 	"filename": "crosshair_flash_2",
-	"frame": {"x":69,"y":99,"w":32,"h":32},
+	"frame": {"x":38,"y":344,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -101,7 +119,7 @@
 },
 {
 	"filename": "crosshair_flash_3",
-	"frame": {"x":35,"y":99,"w":32,"h":32},
+	"frame": {"x":38,"y":310,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -109,9 +127,27 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "icons_thrust_0",
-	"frame": {"x":103,"y":99,"w":33,"h":31},
+	"filename": "icons_hellbaticon_0",
+	"frame": {"x":79,"y":1,"w":24,"h":19},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":19,"w":24,"h":19},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "icons_pointer_0",
+	"frame": {"x":73,"y":116,"w":14,"h":7},
 	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":0,"w":14,"h":7},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "icons_thrust_0",
+	"frame": {"x":38,"y":241,"w":33,"h":31},
+	"rotated": true,
 	"trimmed": true,
 	"spriteSourceSize": {"x":12,"y":16,"w":33,"h":31},
 	"sourceSize": {"w":64,"h":64},
@@ -119,7 +155,7 @@
 },
 {
 	"filename": "icons_thrust_1",
-	"frame": {"x":138,"y":99,"w":31,"h":29},
+	"frame": {"x":71,"y":241,"w":31,"h":29},
 	"rotated": true,
 	"trimmed": true,
 	"spriteSourceSize": {"x":13,"y":17,"w":31,"h":29},
@@ -128,8 +164,8 @@
 },
 {
 	"filename": "icons_thrust_2",
-	"frame": {"x":159,"y":75,"w":23,"h":21},
-	"rotated": false,
+	"frame": {"x":79,"y":27,"w":23,"h":21},
+	"rotated": true,
 	"trimmed": true,
 	"spriteSourceSize": {"x":17,"y":20,"w":23,"h":21},
 	"sourceSize": {"w":64,"h":64},
@@ -137,7 +173,7 @@
 },
 {
 	"filename": "icons_thrust_3",
-	"frame": {"x":169,"y":98,"w":13,"h":13},
+	"frame": {"x":87,"y":183,"w":13,"h":13},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":22,"y":25,"w":13,"h":13},
@@ -146,7 +182,7 @@
 },
 {
 	"filename": "icons_thrust_4",
-	"frame": {"x":220,"y":126,"w":3,"h":3},
+	"frame": {"x":97,"y":52,"w":3,"h":3},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":3,"h":3},
@@ -155,7 +191,7 @@
 },
 {
 	"filename": "player_arm_0",
-	"frame": {"x":223,"y":73,"w":11,"h":38},
+	"frame": {"x":38,"y":125,"w":11,"h":38},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":27,"y":1,"w":11,"h":38},
@@ -164,7 +200,7 @@
 },
 {
 	"filename": "player_down_0",
-	"frame": {"x":159,"y":36,"w":37,"h":34},
+	"frame": {"x":38,"y":165,"w":37,"h":34},
 	"rotated": true,
 	"trimmed": true,
 	"spriteSourceSize": {"x":16,"y":16,"w":37,"h":34},
@@ -173,7 +209,7 @@
 },
 {
 	"filename": "player_forward_0",
-	"frame": {"x":184,"y":75,"w":37,"h":34},
+	"frame": {"x":51,"y":125,"w":37,"h":34},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":16,"y":16,"w":37,"h":34},
@@ -182,8 +218,8 @@
 },
 {
 	"filename": "player_idle_0",
-	"frame": {"x":159,"y":1,"w":45,"h":33},
-	"rotated": false,
+	"frame": {"x":38,"y":78,"w":45,"h":33},
+	"rotated": true,
 	"trimmed": true,
 	"spriteSourceSize": {"x":12,"y":16,"w":45,"h":33},
 	"sourceSize": {"w":64,"h":64},
@@ -191,7 +227,7 @@
 },
 {
 	"filename": "player_up_0",
-	"frame": {"x":195,"y":36,"w":35,"h":34},
+	"frame": {"x":38,"y":204,"w":35,"h":34},
 	"rotated": true,
 	"trimmed": true,
 	"spriteSourceSize": {"x":18,"y":16,"w":35,"h":34},
@@ -200,11 +236,20 @@
 },
 {
 	"filename": "ship",
-	"frame": {"x":1,"y":1,"w":156,"h":96},
-	"rotated": false,
+	"frame": {"x":1,"y":385,"w":156,"h":96},
+	"rotated": true,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":156,"h":96},
 	"sourceSize": {"w":160,"h":100},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "travelbar",
+	"frame": {"x":1,"y":1,"w":382,"h":35},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":7,"w":382,"h":35},
+	"sourceSize": {"w":400,"h":50},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -212,8 +257,8 @@
 	"version": "1.0",
 	"image": "SpaceRun.png",
 	"format": "RGBA8888",
-	"size": {"w":236,"h":132},
+	"size": {"w":101,"h":542},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:6256bed3cf84f5511c0fe19e708002fa:f1fd4db835d8f539cb7781ce889ef217:ba0dd6fffdb5f086d966a9c396716319$"
+	"smartupdate": "$TexturePacker:SmartUpdate:df4a68445cd93a11bd1d2801fdc6ccf4:f708cbc077e689b591461733e699a8b4:ba0dd6fffdb5f086d966a9c396716319$"
 }
 }

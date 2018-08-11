@@ -1,6 +1,8 @@
 package states;
 
 import attacks.UnivAttack;
+import enemies.Enemy;
+import enemies.biker.Biker;
 import entities.Effects;
 import entities.Player;
 import entities.Ship;
@@ -14,7 +16,9 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxPoint.FlxCallbackPoint;
 import flixel.util.FlxColor;
 import hud.Crosshair;
+import hud.HUD;
 import inputhelper.InputHelper;
+import levels.Wave;
 
 /**
  * ...
@@ -30,12 +34,14 @@ class GameState extends FlxState
 	var camTarget:FlxSprite;
 	var crosshair:FlxSprite;
 	
-	var p:Player;
+	public var p(default, null):Player;
 	var parm:FlxSprite;
-	var ship:Ship;
+	public var ship(default, null):Ship;
 	
+	var hud:HUD;
 	var playerAttacks:FlxTypedGroup<UnivAttack>;
 	
+	var enemies:FlxTypedGroup<Enemy>;
 	var effects:FlxTypedGroup<Effects>;
 	var bgeffects:FlxTypedGroup<Effects>;
 	
@@ -55,10 +61,10 @@ class GameState extends FlxState
 		
 		createGroups();
 		
+		createHUD();
 		
 		camTarget = new FlxSprite(0, 0);
 		camTarget.makeGraphic(1, 1, FlxColor.TRANSPARENT);
-		crosshair = new Crosshair();
 		FlxG.mouse.visible = false;
 		FlxG.camera.follow(camTarget, FlxCameraFollowStyle.LOCKON );
 		FlxG.camera.setScrollBoundsRect(0, 0, H.LEVEL_SIZE, H.LEVEL_SIZE);
@@ -66,12 +72,17 @@ class GameState extends FlxState
 		addToScene();
 	}
 	
-	
+	private function createHUD() {
+		crosshair = new Crosshair();
+		hud = new hud.HUD();
+		
+	}
 	
 	private function createGroups() {
 		playerAttacks = new FlxTypedGroup<UnivAttack>();
 		effects = new FlxTypedGroup<Effects>();
 		EffectFactory.registerEffects(effects);
+		enemies = new FlxTypedGroup<Enemy>();
 
 	}
 	
@@ -79,9 +90,11 @@ class GameState extends FlxState
 		add(effects);
 		add(ship);
 		add(parm);
+		add(enemies);
 		add(p);
 
 		add(playerAttacks);
+		add(hud);
 		add(crosshair);
 		
 	}
@@ -97,7 +110,9 @@ class GameState extends FlxState
 		parm.setPosition(p.x, p.y);
 		p.registerArm(parm);
 		
-		ship = new Ship(375, 375);
+		
+		ship = new Ship();
+		ship.reset(H.LEVEL_SIZE/2 - ship.width/2, H.LEVEL_SIZE/2 - ship.height/2);
 		ship.toggleThrust();
 		
 		
@@ -120,11 +135,33 @@ class GameState extends FlxState
 	{
 		InputHelper.updateKeys();
 		
+		FlxG.overlap(enemies, playerAttacks, enemyHitByAttack);
+		
 		super.update(elapsed);
+		hud.update(elapsed);
 		var pos = FlxG.mouse.getPosition();
 		camTarget.x = (p.x + pos.x)/2;
-		camTarget.y = (p.y + pos.y)/2;
+		camTarget.y = (p.y + pos.y) / 2;
+		
+		if (FlxG.keys.justPressed.L) {
+			spawnTestWave();
+		}
 	}
+	
+	private function spawnTestWave() {
+		//var b = new Biker();
+		//b.reset(100, 100);
+		//enemies.add(b);
+		
+		var wave = new Wave();
+		wave.enemyCount = 3;
+		wave.enemyType = EnemyTypes.BIKER;
+		wave.pickRandomLocation();
+		var es = wave.spawnWave();
+		for (e in es)
+			enemies.add(e);
+	}
+	
 	
 	/**
 	 * Gets the first available player attack or creates a new one if one is not available.
@@ -137,6 +174,16 @@ class GameState extends FlxState
 			playerAttacks.add(a);
 		}
 		return a;
+	}
+	
+	public function enemyHitByAttack(e:Enemy, a:UnivAttack) {
+		if (!a.alive || !e.alive)
+			return;
+		a.hitEntity(e);
+		e.takeDamage(a.damage);
+	}
+	
+	private function updateMap() {
 		
 	}
 }

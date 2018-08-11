@@ -28,6 +28,8 @@ class UnivAttack extends FlxSprite
 	public var attackDelay:Float = 1;
 	public var type:AttackTypes;
 	
+	public var damage:Float = 1;
+	
 	//The inaccuracy is how many degrees + or - the shot can be off.
 	public var inaccuracy:Float = 0;
 	
@@ -39,18 +41,7 @@ class UnivAttack extends FlxSprite
 		
 		setupAnimations();
 		
-		onHit = function(a:UnivAttack) {
-			if (!alive)
-				return;
-			alive = false;
-			if (onComplete == null) {
-				animation.play(endAnim);
-				new FlxTimer().start(1, function(_) {exists = false; });
-
-			} else {
-				onComplete(this);
-			}
-		}; 
+		onHit = defaultOnHit;
 		
 	}
 	
@@ -89,8 +80,6 @@ class UnivAttack extends FlxSprite
 	public function initAttack(p:FlxPoint, lifespan:Float) {
 		ID = FlxG.random.int();
 		visible = true;
-		//setHitboxSize(type);
-		//centerOffsets();
 		//Grab a temp copy of velocity.  It was set in the Factory but will be wiped out by the reset call and we need to put it back.
 		var tempVel:FlxPoint = FlxPoint.get().copyFrom(velocity);
 		reset(p.x - width / 2, p.y - height / 2);
@@ -126,4 +115,19 @@ class UnivAttack extends FlxSprite
 	{
 		onHit(this);
 	}
+	 
+	public function defaultOnHit(a:UnivAttack) {
+		if (!alive)
+			return;
+		alive = false;
+		if (onComplete == null) {
+			animation.play(endAnim);
+			new FlxTimer().start(1, function(_) {exists = false; });
+
+		} else {
+			onComplete(this);
+		}
+	}
+	
+	
 }

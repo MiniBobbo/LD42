@@ -1,5 +1,7 @@
 package;
 import attacks.UnivAttack;
+import entities.Player;
+import entities.Ship;
 import flixel.FlxSprite;
 import flixel.graphics.atlas.FlxAtlas;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -47,5 +49,12 @@ class H
 	
 	public static function getPlayerAttack():UnivAttack {
 		return gs.getPlayerAttack();
+	}
+	
+	public static function getShip():Ship {
+		return gs.ship;
+	}
+	public static function getPlayer():Player {
+		return gs.p;
 	}
 }

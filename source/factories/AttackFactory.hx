@@ -27,6 +27,7 @@ class AttackFactory
 				a.acceleration.set();
 				a.setSize(10, 10);
 				a.attackDelay = .1;
+				a.damage = 1;
 				a.inaccuracy = 10;
 				a.velocity.set(0, -400);
 				a.centerOffsets();

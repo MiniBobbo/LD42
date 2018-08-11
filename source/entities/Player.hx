@@ -64,7 +64,6 @@ class Player extends Entity
 	}
 	
 	public function shoot() {
-		trace('shooting ' + attackDelay);
 		if (attackDelay > 0)
 		return;
 		var a = H.getPlayerAttack();
