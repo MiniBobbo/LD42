@@ -7,15 +7,23 @@ import flixel.math.FlxPoint;
 enum EffectType {
 	THRUST;
 	LARGE_THRUST;
+	EXPLODE;
 }
 
 class EffectFactory 
 {
 	private static var effects:FlxTypedGroup<Effects>;
+	private static var fgeffects:FlxTypedGroup<Effects>;
 	
 	public static function registerEffects(e:FlxTypedGroup<Effects>) {
 		effects = e;
 	}
+	public static function registerFgEffects(e:FlxTypedGroup<Effects>) {
+		fgeffects = e;
+	}
+	
+	
+	
 	
 	/**
 	 * Creates an effect 
@@ -31,6 +39,23 @@ class EffectFactory
 			effects.add(e);
 		}
 		
+		createEffect(e, position, type, data);
+	}
+
+	public static function fgeffect(position:FlxPoint, type:EffectType, ?data:Dynamic) {
+		var e = fgeffects.getFirstAvailable();
+		//Lazy load the effect
+		if (e == null) {
+			e = new Effects();
+			fgeffects.add(e);
+		}
+		
+		createEffect(e, position, type, data);
+	}
+
+	
+	private static function createEffect(e:Effects, position:FlxPoint, type:EffectType, ?data:Dynamic) {
+				
 		switch (type) 
 		{
 			case EffectType.THRUST:
@@ -41,6 +66,16 @@ class EffectFactory
 				e.reset(position.x - e.width / 2, position.y - e.height / 2);
 				e.velocity.x = -300;
 				e.velocity.y = FlxG.random.float(-30,30);
+				e.startTimer(.5);
+			case EffectType.EXPLODE:
+				e.animation.play('explode');
+				e.setSize(32, 32);
+				e.centerOffsets();
+				e.scale.set(1, 1);
+				e.centerOrigin();
+				e.reset(position.x - e.width / 2, position.y - e.height / 2);
+				e.acceleration.set();
+				e.velocity.set();
 				e.startTimer(.5);
 			case EffectType.LARGE_THRUST:
 				e.animation.play('thrust');
@@ -56,7 +91,8 @@ class EffectFactory
 			default:
 				
 		}
+
+		
 	}
-	
 	
 }

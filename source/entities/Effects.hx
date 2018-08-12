@@ -16,6 +16,7 @@ class Effects extends FlxSprite
 		super();
 		frames = H.getFrames();
 		animation.addByPrefix('thrust', 'icons_thrust_', 12, false);
+		animation.addByPrefix('explode', 'icons_explode_', 12, false);
 		animation.play('thrust');
 		kill();
 		lifespanTimer = new FlxTimer();

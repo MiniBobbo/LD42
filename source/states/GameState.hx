@@ -45,7 +45,7 @@ class GameState extends FlxState
 	var bg2:FlxBackdrop;
 	var bg3:FlxBackdrop;
 	
-	var camTarget:CamTarget;
+	public var camTarget:CamTarget;
 	var crosshair:FlxSprite;
 	
 	public var p(default, null):Player;
@@ -59,6 +59,7 @@ class GameState extends FlxState
 	public var enemies:FlxTypedGroup<Enemy>;
 	var effects:FlxTypedGroup<Effects>;
 	var bgeffects:FlxTypedGroup<Effects>;
+	var fgeffects:FlxTypedGroup<Effects>;
 	
 	public var signalable:Array<ISignal>;
 	
@@ -68,7 +69,7 @@ class GameState extends FlxState
 	
 	var currentLevel:Level;
 	
-	var state:LevelState = LevelState.PLAYING;
+	public var state:LevelState = LevelState.PLAYING;
 	var cutsceneManager:CutsceneManager;
 	
 	public function new() 
@@ -142,6 +143,8 @@ class GameState extends FlxState
 		enemyAttacks = new FlxTypedGroup<UnivAttack>();
 		effects = new FlxTypedGroup<Effects>();
 		EffectFactory.registerEffects(effects);
+		fgeffects = new FlxTypedGroup<Effects>();
+		EffectFactory.registerFgEffects(fgeffects);
 		enemies = new FlxTypedGroup<Enemy>();
 
 		FlxG.watch.add(enemies, 'length', 'Enemy Count:');
@@ -159,6 +162,7 @@ class GameState extends FlxState
 		add(enemyAttacks);
 		add(hud);
 		add(crosshair);
+		add(fgeffects);
 		
 	}
 	private function createPlayer(){

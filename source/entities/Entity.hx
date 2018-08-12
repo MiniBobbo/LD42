@@ -51,7 +51,13 @@ class Entity extends FlxSprite implements IFSM implements ISignal
 	}
 	
 	public function getSignal(signal:String, ?data:Dynamic):Void {
-		
+		switch (signal) 
+		{
+			case 'stop':
+				fsm.hold();
+			default:
+				
+		}
 	}
 
 }

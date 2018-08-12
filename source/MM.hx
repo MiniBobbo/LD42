@@ -24,7 +24,7 @@ class MM
 				FlxG.sound.playMusic('assets/music/space_victory.mp3', 1, false);
 				
 			default:
-				
+				fadeMusic();
 		}
 	}
 	

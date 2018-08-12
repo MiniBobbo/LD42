@@ -3,6 +3,7 @@ package enemies.biker;
 import attacks.UnivAttack;
 import attacks.UnivAttack.AttackTypes;
 import factories.AttackFactory;
+import factories.EffectFactory;
 import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
@@ -59,12 +60,15 @@ class Biker extends Enemy
 	
 	override public function getSignal(signal:String, ?data:Dynamic):Void 
 	{
+		super.getSignal(signal, data);
 		switch (signal) 
 		{
 			case 'hit':
 				var a:UnivAttack = cast data;
 				takeDamage(a.damage);
 				FlxSpriteUtil.flicker(this, .2);
+				if (hp <= 0)
+					EffectFactory.fgeffect(FlxPoint.weak(x+ width/2, y + width/2), EffectType.EXPLODE);
 				
 			default:
 				

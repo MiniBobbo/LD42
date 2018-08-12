@@ -1,4 +1,6 @@
 package fsm;
+import flixel.FlxG;
+import flixel.util.FlxColor;
 
 /**
  * ...
@@ -15,6 +17,7 @@ class ShipDeadFSM extends FSMModule
 	override public function changeTo() 
 	{
 		H.signalAll('defeat');
+		FlxG.camera.flash(FlxColor.RED, .4);
 	}
 	
 }

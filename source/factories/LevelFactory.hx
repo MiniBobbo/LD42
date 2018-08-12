@@ -13,7 +13,8 @@ class LevelFactory
 		var level:Level;
 		switch (key) 
 		{
-			case 'test':
+		
+			case 'lose':
 				level = new Level(45);
 				level.name = key;
 				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
@@ -23,6 +24,15 @@ class LevelFactory
 				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
 				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
 				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(10, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(10, 3, EnemyTypes.BIKER));
+				//level.addWave(new Wave(15, 3, EnemyTypes.BIKER));
+				//level.addWave(new Wave(15, 2, EnemyTypes.BIKER));
+				level.addWave(new Wave(15, 2, EnemyTypes.BIKER));
+		case 'test':
+				level = new Level(45);
+				level.name = key;
 				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
 				level.addWave(new Wave(10, 3, EnemyTypes.BIKER));
 				level.addWave(new Wave(10, 3, EnemyTypes.BIKER));

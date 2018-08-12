@@ -6,6 +6,7 @@ import entities.Ship;
 import flixel.FlxSprite;
 import flixel.graphics.atlas.FlxAtlas;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.math.FlxPoint;
 import levels.Level;
 import states.GameState;
 
@@ -82,5 +83,9 @@ class H
 	public static function signalAll(signal:String, ?data:Dynamic) {
 		for (s in H.gs.signalable)
 			s.getSignal(signal, data);
+	}
+	
+	public static function getShipMidpoint():FlxPoint {
+		return H.gs.ship.getMidpoint();
 	}
 }

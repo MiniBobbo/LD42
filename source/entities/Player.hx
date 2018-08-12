@@ -94,7 +94,8 @@ class Player extends Entity
 			case 'victory':
 				fsm.changeState('win');
 				thrustTimer.cancel();
-				
+			case 'stop':
+				fsm.hold();
 			default:
 				
 		}
