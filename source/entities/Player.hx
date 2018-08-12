@@ -9,6 +9,7 @@ import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxTimer;
 import fsm.PlayerMoveFSM;
+import fsm.PlayerWinFSM;
 
 /**
  * ...
@@ -37,11 +38,16 @@ class Player extends Entity
 		animation.addByPrefix('idle', 'player_idle_', 1, false);
 		animation.addByPrefix('down', 'player_down_', 1, false);
 		animation.addByPrefix('up', 'player_up_', 1, false);
+		animation.addByPrefix('transform', 'player_transform_', 12, false);
+		animation.addByPrefix('travel', 'player_travel_', 12, false);
+		animation.addByPrefix('disappear', 'player_disappear_', 12, false);
+		
 		animation.play('forward');
 		setSize(30, 30);
 		centerOffsets();
 		
 		fsm.addtoMap('main', new PlayerMoveFSM(this));
+		fsm.addtoMap('win', new PlayerWinFSM(this));
 		fsm.changeState('main');
 		thrustTimer = new FlxTimer();
 		toggleThrust();
@@ -79,6 +85,19 @@ class Player extends Entity
 		a.velocity.rotate(FlxPoint.weak(), arm.angle + FlxG.random.float(-a.inaccuracy, a.inaccuracy) );
 		
 		attackDelay = a.attackDelay;
+	}
+	
+	override public function getSignal(signal:String, ?data:Dynamic):Void 
+	{
+		switch (signal) 
+		{
+			case 'victory':
+				fsm.changeState('win');
+				thrustTimer.cancel();
+				
+			default:
+				
+		}
 	}
 	
 }

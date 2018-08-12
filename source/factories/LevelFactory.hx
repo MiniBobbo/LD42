@@ -15,6 +15,14 @@ class LevelFactory
 		{
 			case 'test':
 				level = new Level(45);
+				level.name = key;
+				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
 				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
 				level.addWave(new Wave(10, 3, EnemyTypes.BIKER));
 				level.addWave(new Wave(10, 3, EnemyTypes.BIKER));

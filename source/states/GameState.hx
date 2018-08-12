@@ -3,6 +3,7 @@ package states;
 import attacks.UnivAttack;
 import enemies.Enemy;
 import enemies.biker.Biker;
+import entities.CamTarget;
 import entities.Effects;
 import entities.Player;
 import entities.Ship;
@@ -15,7 +16,10 @@ import flixel.FlxState;
 import flixel.addons.display.FlxBackdrop;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxPoint.FlxCallbackPoint;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
 import hud.Crosshair;
 import hud.HUD;
@@ -41,7 +45,7 @@ class GameState extends FlxState
 	var bg2:FlxBackdrop;
 	var bg3:FlxBackdrop;
 	
-	var camTarget:FlxSprite;
+	var camTarget:CamTarget;
 	var crosshair:FlxSprite;
 	
 	public var p(default, null):Player;
@@ -65,6 +69,7 @@ class GameState extends FlxState
 	var currentLevel:Level;
 	
 	var state:LevelState = LevelState.PLAYING;
+	var cutsceneManager:CutsceneManager;
 	
 	public function new() 
 	{
@@ -74,15 +79,15 @@ class GameState extends FlxState
 	override public function create():Void 
 	{
 		super.create();
-		FlxG.sound.playMusic('assets/music/Space1.mp3');
+		
+		MM.play(MM.MusicTypes.BATTLE);
 		H.registerGameState(this);
 		createGroups();
 		FlxG.worldBounds.set(0, 0, H.LEVEL_SIZE, H.LEVEL_SIZE);
 		createBG();
 		createPlayer();
 		createHUD();
-		camTarget = new FlxSprite(0, 0);
-		camTarget.makeGraphic(1, 1, FlxColor.TRANSPARENT);
+		camTarget = new CamTarget();
 		FlxG.mouse.visible = false;
 		FlxG.camera.follow(camTarget, FlxCameraFollowStyle.LOCKON );
 		FlxG.camera.setScrollBoundsRect(0, 0, H.LEVEL_SIZE, H.LEVEL_SIZE);
@@ -114,6 +119,7 @@ class GameState extends FlxState
 	private function createHUD() {
 		crosshair = new Crosshair();
 		hud = new hud.HUD();
+		signalable.push(hud);
 		
 	}
 	
@@ -130,6 +136,8 @@ class GameState extends FlxState
 	private function createGroups() {
 		
 		signalable = [];
+		cutsceneManager = new CutsceneManager();
+		signalable.push(cutsceneManager);
 		playerAttacks = new FlxTypedGroup<UnivAttack>();
 		enemyAttacks = new FlxTypedGroup<UnivAttack>();
 		effects = new FlxTypedGroup<Effects>();
@@ -190,14 +198,18 @@ class GameState extends FlxState
 	
 	private function victory() {
 		trace('WIN!');
+		H.signalAll('victory');
 		state = LevelState.VICTORY;
+		FlxSpriteUtil.fadeOut(crosshair, .5);
+		FlxTween.tween(camTarget, {x:p.x, y:p.y}, .3, {ease:FlxEase.quadInOut, onComplete: function (_) {FlxG.camera.follow(p); }});
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
 		//Be careful with pausing.  
 		levelTime += elapsed;
-		hud.updateShipSticker(levelTime, currentLevel.totalTime);
+		if(state == LevelState.PLAYING)
+			hud.updateShipSticker(levelTime, currentLevel.totalTime);
 		
 		if (levelTime >= currentLevel.totalTime && state == LevelState.PLAYING) {
 			victory();
@@ -209,11 +221,12 @@ class GameState extends FlxState
 		FlxG.overlap(ship, enemyAttacks, shipHitByAttack);
 		
 		super.update(elapsed);
-		hud.update(elapsed);
-		var pos = FlxG.mouse.getPosition();
-		camTarget.x = (p.x + pos.x)/2;
-		camTarget.y = (p.y + pos.y) / 2;
-		
+		if (state == LevelState.PLAYING) {
+			hud.update(elapsed);
+			var pos = FlxG.mouse.getPosition();
+			camTarget.x = (p.x + pos.x)/2;
+			camTarget.y = (p.y + pos.y) / 2;
+		}
 		#if debug
 		if (FlxG.keys.justPressed.L) {
 			spawnTestWave();
@@ -222,10 +235,6 @@ class GameState extends FlxState
 	}
 	
 	private function spawnTestWave() {
-		//var b = new Biker();
-		//b.reset(100, 100);
-		//enemies.add(b);
-		
 		var wave = new Wave(1, 3, EnemyTypes.BIKER);
 		wave.pickRandomLocation();
 		var es = wave.spawnWave();
@@ -260,7 +269,7 @@ class GameState extends FlxState
 		if (!a.alive || !e.alive)
 			return;
 		a.hitEntity(e);
-		e.takeDamage(a.damage);
+		e.getSignal('hit', a);
 	}
 	public function shipHitByAttack(s:Ship, a:UnivAttack) {
 		if (!a.alive || !s.alive)

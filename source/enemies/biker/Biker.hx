@@ -1,10 +1,12 @@
 package enemies.biker;
 
+import attacks.UnivAttack;
 import attacks.UnivAttack.AttackTypes;
 import factories.AttackFactory;
 import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
+import flixel.util.FlxSpriteUtil;
 
 /**
  * ...
@@ -53,5 +55,19 @@ class Biker extends Enemy
 	public function fireAtPlayer() {
 		var a = H.getEnemyAttack();
 		
+	}
+	
+	override public function getSignal(signal:String, ?data:Dynamic):Void 
+	{
+		switch (signal) 
+		{
+			case 'hit':
+				var a:UnivAttack = cast data;
+				takeDamage(a.damage);
+				FlxSpriteUtil.flicker(this, .2);
+				
+			default:
+				
+		}
 	}
 }

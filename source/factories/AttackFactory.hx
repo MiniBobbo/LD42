@@ -28,7 +28,7 @@ class AttackFactory
 				a.setSize(10, 10);
 				a.attackDelay = .1;
 				a.damage = 1;
-				a.inaccuracy = 10;
+				a.inaccuracy = 5;
 				a.velocity.set(0, -700);
 				a.centerOffsets();
 				a.fireAnim = 'shot';
@@ -40,7 +40,7 @@ class AttackFactory
 				a.acceleration.set();
 				a.setSize(10, 10);
 				a.attackDelay = .1;
-				a.damage = 1;
+				a.damage = 10;
 				a.inaccuracy = 30;
 				a.velocity.set(0, -200);
 				a.centerOffsets();

@@ -9,6 +9,7 @@ class Level
 
 	public var waves:Array<Wave>;
 	public var totalTime:Float;
+	public var name:String;
 	
 	public function new(totalTime:Float) 
 	{

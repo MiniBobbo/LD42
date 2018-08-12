@@ -3,12 +3,16 @@ package entities;
 import attacks.UnivAttack;
 import factories.EffectFactory;
 import factories.EffectFactory.EffectType;
+import flixel.FlxG;
 import flixel.input.FlxAccelerometer;
 import flixel.math.FlxPoint;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
+import fsm.ShipDeadFSM;
 
 /**
  * ...
@@ -35,11 +39,14 @@ class Ship extends Entity
 		hp = SHIP_HP;
 		
 		thrustTimer = new FlxTimer();
+		
+		fsm.addtoMap('dead', new ShipDeadFSM(this));
 		//toggleThrust();
 	}
 	
 	
 	public function toggleThrust(on:Bool = true) {
+		if (on) {
 		thrustTimer.start(THRUST_TIME, function(_) {
 			var p = FlxPoint.get();
 			getMidpoint(p);
@@ -48,12 +55,23 @@ class Ship extends Entity
 			EffectFactory.effect(getMidpoint(), EffectType.LARGE_THRUST); 
 			p.put();
 		}, 0 );
+			
+		} else {
+			thrustTimer.cancel();
+		}
 	}
 	
 	override public function getSignal(signal:String, ?data:Dynamic):Void 
 	{
 		switch (signal) 
 		{
+			case 'lightspeed':
+				toggleThrust(false);
+				thrustTimer.start(1.5, function(_) {
+					FlxTween.tween(this, {x:3000}, .2, {ease:FlxEase.elasticInOut});
+					FlxG.camera.flash(FlxColor.WHITE, .1);
+				});
+			
 			case 'hit':
 				var a:UnivAttack = cast data;
 				FlxSpriteUtil.flicker(this, .2);

@@ -3,15 +3,18 @@ package hud;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxSpriteUtil;
+import signal.ISignal;
 
 /**
  * ...
  * @author Dave
  */
-class HUD extends FlxSpriteGroup
+class HUD extends FlxSpriteGroup implements ISignal
 {
 
 	var shipSticker:FlxSprite;
@@ -26,10 +29,12 @@ class HUD extends FlxSpriteGroup
 	var mapStamp:FlxSprite;
 	var map:FlxSprite;
 	var playerMarker:FlxSprite;
-
+	var line:FlxSprite;
 	var shipPointer:FlxSprite;
 
 	var shipHealth:Bar;
+	
+	var shipText:FlxText;
 
 	var mapIcons:FlxSpriteGroup;
 
@@ -40,7 +45,7 @@ class HUD extends FlxSpriteGroup
 		mapStamp.makeGraphic(MAP_SIZE, MAP_SIZE, FlxColor.GRAY);
 
 		scrollFactor.set();
-		var line = new FlxSprite();
+		line = new FlxSprite();
 		line.frames = H.getFrames();
 		line.animation.frameName = 'travelbar';
 		line.scrollFactor.set();
@@ -71,16 +76,17 @@ class HUD extends FlxSpriteGroup
 		shipHealth = new Bar(H.getShip(), 'hp', 100);
 		shipHealth.scrollFactor.set();
 		shipHealth.y = FlxG.height - 20;
-					   //map = new FlxSprite(MAP_LOC_X, MAP_LOC_Y);
-					   //map.makeGraphic(MAP_SIZE, MAP_SIZE, FlxColor.GRAY);
-					   //map.scrollFactor.set();
-					   //map.stamp(mapStamp);
-					   add(shipPointer);
+		
+		shipText = new FlxText(shipHealth.x, shipHealth.y, 0, 'Ship Health');
+		shipText.scrollFactor.set();
+	   add(shipPointer);
 		add(line);
 		add(shipSticker);
 		//add(map);
 		add(playerMarker);
 		add(shipHealth);
+		add(shipText);
+		
 	}
 
 	public function setShipStickerPosition(ratio:Float)
@@ -130,6 +136,17 @@ class HUD extends FlxSpriteGroup
 	public function updateShipSticker(currentTime:Float, maxTime:Float)
 	{
 		shipSticker.x = (currentTime / maxTime) * LENGTH + START_POS;
+	}
+
+	public function getSignal(signal:String, ?data:Dynamic):Void {
+		if (signal == 'victory' || signal == 'defeat') {
+			FlxSpriteUtil.fadeOut(shipSticker);
+			FlxSpriteUtil.fadeOut(shipHealth);
+			FlxSpriteUtil.fadeOut(shipText);
+			FlxSpriteUtil.fadeOut(shipPointer);
+			FlxSpriteUtil.fadeOut(line);
+			
+		}
 	}
 
 }

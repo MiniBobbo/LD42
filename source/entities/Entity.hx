@@ -6,6 +6,7 @@ import flixel.util.FlxSpriteUtil;
 import fsm.DeadFSM;
 import fsm.FSM;
 import fsm.IFSM;
+import fsm.StopFSM;
 import signal.ISignal;
 
 /**
@@ -23,6 +24,7 @@ class Entity extends FlxSprite implements IFSM implements ISignal
 		super(X, Y, SimpleGraphic);
 		fsm = new FSM(this);
 		fsm.addtoMap('dead', new DeadFSM(this) );
+		fsm.addtoMap('stop', new StopFSM(this) );
 		
 	}
 	

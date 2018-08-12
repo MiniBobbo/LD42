@@ -1,6 +1,6 @@
 MVP
-Basic Main Menu w/ title
-Win State
+* Basic Main Menu w/ title
+* Win State
 Lose State
 Sound
 Enemy can shoot the player
@@ -13,6 +13,7 @@ Enemy can shoot the player
 Phase 1
 Minimap that show the player, ship and enemies
 Ship Health bar
+Player Health bar
 
 
 Music/Sound MVP
@@ -23,6 +24,7 @@ Ship Hit
 Explosion
 
 Phase 1
+Level Start cutscene
 Menu sounds
 Additional attacks
 Alarm for incoming wave
