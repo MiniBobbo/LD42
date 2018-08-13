@@ -2,6 +2,7 @@ package entities;
 
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 import fsm.DeadFSM;
 import fsm.FSM;
@@ -19,13 +20,15 @@ class Entity extends FlxSprite implements IFSM implements ISignal
 	var hp:Float = -1;
 	
 	var fsm:FSM;
+	
+	public var minimapColor:FlxColor;
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
 		super(X, Y, SimpleGraphic);
 		fsm = new FSM(this);
 		fsm.addtoMap('dead', new DeadFSM(this) );
 		fsm.addtoMap('stop', new StopFSM(this) );
-		
+		minimapColor = FlxColor.WHITE;
 	}
 	
 	override public function update(elapsed:Float):Void 

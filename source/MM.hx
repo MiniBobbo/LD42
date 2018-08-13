@@ -6,6 +6,7 @@ enum MusicTypes {
 	BATTLE;
 	VICTORY;
 	DEFEAT;
+	MENU;
 }
 
 /**
@@ -22,6 +23,10 @@ class MM
 				FlxG.sound.playMusic('assets/music/Space1.mp3');
 			case MusicTypes.VICTORY:
 				FlxG.sound.playMusic('assets/music/space_victory.mp3', 1, false);
+			case MusicTypes.DEFEAT:
+				FlxG.sound.playMusic('assets/music/you_lose.mp3', 1, false);
+			case MusicTypes.MENU:
+				FlxG.sound.playMusic('assets/music/space_menu.mp3', 1, false);
 				
 			default:
 				fadeMusic();

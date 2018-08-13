@@ -60,6 +60,7 @@ class CutsceneManager implements ISignal
 			p.y += FlxG.random.float(0, s.height);
 			EffectFactory.fgeffect(p, EffectType.EXPLODE);
 		}, 0);
+		MM.fadeMusic();
 	}
 	
 	function flashScreen(_) {

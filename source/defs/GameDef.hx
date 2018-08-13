@@ -5,5 +5,5 @@ package defs;
  */
 typedef GameDef =
 {
-		
+	var rankings:Array<RankDef>;	
 }

@@ -24,6 +24,9 @@ class PlayerMoveFSM extends FSMModule
 	
 	override public function changeTo() 
 	{
+		if(p.arm != null)
+			p.arm.visible = true;
+		p.angle = 0;
 		p.drag.set(DRAG, DRAG);
 		p.maxVelocity.set(MAX_SPEED, MAX_SPEED);
 	}

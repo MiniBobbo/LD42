@@ -22,10 +22,15 @@ class Level
 	}
 	
 	public function advanceTime(newTime:Int) {
+		var incoming:Bool = false;
 		for (w in waves) {
 			if (w.timeToSpawn == newTime) {
+				incoming = true;
 				w.spawnWave();
 			}
 		}
+		
+		if (incoming)
+		SM.play(SM.SoundTypes.NEW_WAVE);
 	}
 }

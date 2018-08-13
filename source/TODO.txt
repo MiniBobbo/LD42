@@ -1,9 +1,9 @@
 MVP
 * Basic Main Menu w/ title
 * Win State
-Lose State
-Sound
-Enemy can shoot the player
+* Lose State
+* Sound
+* Enemy can shoot the player
 * Single level with multiple waves of enemies
 * One enemy type
 * Enemy can shoot the ship
@@ -11,21 +11,31 @@ Enemy can shoot the player
 * Music
 
 Phase 1
-Minimap that show the player, ship and enemies
-Ship Health bar
-Player Health bar
+*Minimap that show the player, ship and enemies
+*Ship Health bar
 
 
-Music/Sound MVP
-Player Shot
-Enemy Shot
-Player Hit
-Ship Hit
-Explosion
+
+
+Optional
+Ship thruster sound that changes based on proximity
+
+Music/Sound 
+* Main Menu music
+* Level Music
+* Win Music
+* Lose Music
+* Player Shot
+* Explosion
+* Player Hit (shield)
+* Player Hit (stunned)
+*Bling (like Mario getting a coin.  Will be used when the player receives stars)
+* Ship Hit
+* Enemy Shot
+Menu sounds (hover and button press)
+* Alarm for incoming wave
 
 Phase 1
 Level Start cutscene
-Menu sounds
 Additional attacks
-Alarm for incoming wave
 Enemies explode

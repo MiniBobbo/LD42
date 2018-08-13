@@ -31,7 +31,7 @@ class InputHelperMenuState extends FlxSubState
 	public var WINDOW_LEFT = Std.int(FlxG.width / 20);
 	public var WINDOW_WIDTH = Std.int(FlxG.width - (FlxG.width / 20) * 2);	
 	public var WINDOW_HEIGHT = Std.int(FlxG.height - 60);	
-	public var WINDOW_COLOR = FlxColor.BLUE;
+	public var WINDOW_COLOR = FlxColor.BLACK;
 	
 	//Other variables
 	public var text:FlxText;
@@ -66,6 +66,7 @@ class InputHelperMenuState extends FlxSubState
 		//Create the background window.
 		bg = new FlxSprite(WINDOW_LEFT, WINDOW_TOP);
 		bg.makeGraphic(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_COLOR);
+		bg.alpha = .5;
 		add(bg);
 
 		var bgText = new FlxText();

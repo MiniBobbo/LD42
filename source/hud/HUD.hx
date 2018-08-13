@@ -1,5 +1,6 @@
 package hud;
 
+import entities.Entity;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
@@ -22,15 +23,18 @@ class HUD extends FlxSpriteGroup implements ISignal
 	var START_POS:Float = -30;
 	var LENGTH:Float = 400;
 
-	var MAP_LOC_X:Float = 310;
-	var MAP_LOC_Y:Float = 310;
-	var MAP_SIZE:Int = 70;
+	//var MAP_LOC_X:Float = 310;
+	//var MAP_LOC_Y:Float = 310;
+	//var MAP_SIZE:Int = 70;
 
 	var mapStamp:FlxSprite;
 	var map:FlxSprite;
 	var playerMarker:FlxSprite;
+	var shipMarker:FlxSprite;
 	var line:FlxSprite;
 	var shipPointer:FlxSprite;
+	
+	public var minimapMarkers:FlxTypedSpriteGroup<MinimapMarker>;
 
 	var shipHealth:Bar;
 	
@@ -42,8 +46,10 @@ class HUD extends FlxSpriteGroup implements ISignal
 	{
 		super();
 		mapStamp = new FlxSprite();
-		mapStamp.makeGraphic(MAP_SIZE, MAP_SIZE, FlxColor.GRAY);
+		mapStamp.makeGraphic(H.MAP_SIZE, H.MAP_SIZE, FlxColor.GRAY);
 
+		minimapMarkers = new FlxTypedSpriteGroup<MinimapMarker>();
+		
 		scrollFactor.set();
 		line = new FlxSprite();
 		line.frames = H.getFrames();
@@ -61,6 +67,8 @@ class HUD extends FlxSpriteGroup implements ISignal
 
 		playerMarker = new FlxSprite();
 		playerMarker.makeGraphic(3,3,FlxColor.RED);
+		shipMarker = new FlxSprite();
+		shipMarker.makeGraphic(5,5,FlxColor.GREEN);
 
 		shipPointer = new FlxSprite();
 		shipPointer.frames = H.getFrames();
@@ -77,12 +85,15 @@ class HUD extends FlxSpriteGroup implements ISignal
 		shipHealth.scrollFactor.set();
 		shipHealth.y = FlxG.height - 20;
 		
-		shipText = new FlxText(shipHealth.x, shipHealth.y, 0, 'Ship Health');
+		shipText = new FlxText(shipHealth.x, shipHealth.y-5, 0, 'Ship Health');
+		shipText.setFormat(null, 10, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		shipText.scrollFactor.set();
 	   add(shipPointer);
 		add(line);
 		add(shipSticker);
 		//add(map);
+		add(minimapMarkers);
+		add(shipMarker);
 		add(playerMarker);
 		add(shipHealth);
 		add(shipText);
@@ -107,8 +118,11 @@ class HUD extends FlxSpriteGroup implements ISignal
 	{
 		super.update(dt);
 		var p = H.getPlayer().getMidpoint();
-
-		updatePlayerMarker(p.x-16,p.y - 16);
+		var s = H.getShipMidpoint();
+		
+		updatePlayerMarker(p.x - 16, p.y - 16);
+		updateShipMarker(s.x - 16, s.y - 16);
+		
 		updateShipPointer();
 		p.put();
 	}
@@ -118,7 +132,14 @@ class HUD extends FlxSpriteGroup implements ISignal
 		var xx = x / H.LEVEL_SIZE;
 		var yy = y / H.LEVEL_SIZE;
 
-		playerMarker.setPosition(MAP_LOC_X + MAP_SIZE * xx - 1, MAP_LOC_Y + MAP_SIZE * yy - 1);
+		playerMarker.setPosition(H.MAP_LOC_X + H.MAP_SIZE * xx - 1, H.MAP_LOC_Y + H.MAP_SIZE * yy - 1);
+	}
+	public function updateShipMarker(x:Float, y:Float)
+	{
+		var xx = x / H.LEVEL_SIZE;
+		var yy = y / H.LEVEL_SIZE;
+
+		shipMarker.setPosition(H.MAP_LOC_X + H.MAP_SIZE * xx - 1, H.MAP_LOC_Y + H.MAP_SIZE * yy - 1);
 	}
 
 	public function getIcon():FlxSprite
@@ -145,8 +166,27 @@ class HUD extends FlxSpriteGroup implements ISignal
 			FlxSpriteUtil.fadeOut(shipText);
 			FlxSpriteUtil.fadeOut(shipPointer);
 			FlxSpriteUtil.fadeOut(line);
+			FlxSpriteUtil.fadeOut(H.gs.crosshair);
+			
 			
 		}
 	}
 
+	public function registerOntoMinimap(e:Entity) {
+		var mm = getMinimapMarker();
+		mm.registerEntity(e);
+		FlxG.log.add('Registered entity to minimap:' + e);
+	}
+	
+	private function getMinimapMarker():MinimapMarker {
+		var m = minimapMarkers.getFirstAvailable();
+		if (m == null){
+			m = new MinimapMarker();
+			minimapMarkers.add(m);
+		}
+		
+		return m;
+		
+	}
+	
 }

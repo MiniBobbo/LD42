@@ -46,13 +46,14 @@ class GameState extends FlxState
 	var bg3:FlxBackdrop;
 	
 	public var camTarget:CamTarget;
-	var crosshair:FlxSprite;
+	public var crosshair:FlxSprite;
 	
 	public var p(default, null):Player;
 	var parm:FlxSprite;
+	var pshield:FlxSprite;
 	public var ship(default, null):Ship;
 	
-	var hud:HUD;
+	public var hud:HUD;
 	var playerAttacks:FlxTypedGroup<UnivAttack>;
 	var enemyAttacks:FlxTypedGroup<UnivAttack>;
 	
@@ -80,7 +81,7 @@ class GameState extends FlxState
 	override public function create():Void 
 	{
 		super.create();
-		
+		currentLevel = H.currentLevel;
 		MM.play(MM.MusicTypes.BATTLE);
 		H.registerGameState(this);
 		createGroups();
@@ -97,15 +98,10 @@ class GameState extends FlxState
 		
 		levelTimer = new FlxTimer();
 		
-		createLevel('test');
 		
 		toggleTimer();
 	}
 	
-	private function createLevel(key:String) {
-		currentLevel = LevelFactory.createLevel(key);
-		H.currentLevel = currentLevel;
-	}
 	
 	
 	private function toggleTimer(on:Bool = true) {
@@ -157,6 +153,7 @@ class GameState extends FlxState
 		add(parm);
 		add(enemies);
 		add(p);
+		add(pshield);
 
 		add(playerAttacks);
 		add(enemyAttacks);
@@ -167,7 +164,9 @@ class GameState extends FlxState
 	}
 	private function createPlayer(){
 		p = new Player();
-		p.setPosition(200, 200);
+		p.setPosition(1000, 1000);
+		
+		
 		parm = new FlxSprite();
 		parm.frames = H.getFrames();
 		parm.animation.frameName = 'player_arm_0';
@@ -176,8 +175,17 @@ class GameState extends FlxState
 		parm.centerOrigin();
 		parm.setPosition(p.x, p.y);
 		p.registerArm(parm);
-		signalable.push(p);
+
 		
+		pshield = new FlxSprite();
+		pshield.frames = H.getFrames();
+		pshield.animation.addByPrefix('shield', 'player_shield_', 30, false);
+		pshield.animation.play('shield');
+		pshield.setSize(64, 64);
+		pshield.centerOffsets();
+		p.registeShield(pshield);
+
+		signalable.push(p);
 		
 		ship = new Ship();
 		ship.reset(H.LEVEL_SIZE/2 - ship.width/2, H.LEVEL_SIZE/2 - ship.height/2);
@@ -221,8 +229,12 @@ class GameState extends FlxState
 		
 		InputHelper.updateKeys();
 		
-		FlxG.overlap(enemies, playerAttacks, enemyHitByAttack);
-		FlxG.overlap(ship, enemyAttacks, shipHitByAttack);
+		if (state == LevelState.PLAYING){
+			FlxG.overlap(enemies, playerAttacks, enemyHitByAttack);
+			FlxG.overlap(ship, enemyAttacks, shipHitByAttack);
+			FlxG.overlap(p, enemyAttacks, playerHitByAttack);
+			
+		}
 		
 		super.update(elapsed);
 		if (state == LevelState.PLAYING) {
@@ -278,9 +290,24 @@ class GameState extends FlxState
 	public function shipHitByAttack(s:Ship, a:UnivAttack) {
 		if (!a.alive || !s.alive)
 			return;
+		if (!a.hitShip)
+		return;
 		a.hitEntity(s);
 		//Signal the ship that it was hit by an attack
 		s.getSignal('hit', a);
+	}
+	
+	public function playerHitByAttack(p:Player, a:UnivAttack) {
+		if (!a.alive)
+			return;
+		a.hitEntity(p);
+		if (a.hitPlayer && !FlxSpriteUtil.isFlickering(p)) {
+			p.getSignal('stun', a);
+		} else if (!a.hitPlayer) {
+			a.hitEntity(p);
+			p.getSignal('shield');
+		}
+			
 	}
 	
 	private function updateMap() {

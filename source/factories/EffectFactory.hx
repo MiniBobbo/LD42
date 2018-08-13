@@ -68,6 +68,7 @@ class EffectFactory
 				e.velocity.y = FlxG.random.float(-30,30);
 				e.startTimer(.5);
 			case EffectType.EXPLODE:
+				SM.play(SM.SoundTypes.EXPLODE);
 				e.animation.play('explode');
 				e.setSize(32, 32);
 				e.centerOffsets();

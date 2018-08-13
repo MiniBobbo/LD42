@@ -16,6 +16,9 @@ class AttackFactory
 	
 	
 	public static function configAttack(a:UnivAttack, type:AttackTypes) {
+		a.soundFX = SM.SoundTypes.NONE;
+		a.endFX = SM.SoundTypes.NONE;
+
 		a.setUpdateFunction(null);
 		a.setInitFunction(null);
 		a.flipX = false;
@@ -24,6 +27,8 @@ class AttackFactory
 		switch (type) 
 		{
 			case AttackTypes.SHOT:
+				a.soundFX = SM.SoundTypes.LASER;
+				a.endFX = SM.SoundTypes.LASERHIT;
 				a.acceleration.set();
 				a.setSize(10, 10);
 				a.attackDelay = .1;
@@ -37,6 +42,8 @@ class AttackFactory
 				a.setCompleteFunction(stopMoving);
 				a.setHitFunction(defaultHit);
 			case AttackTypes.ENEMYSHOT1:
+				a.hitShip = true;
+				a.hitPlayer = false;
 				a.acceleration.set();
 				a.setSize(10, 10);
 				a.attackDelay = .1;
@@ -47,6 +54,21 @@ class AttackFactory
 				a.fireAnim = 'enemyshot1';
 				a.endAnim = 'enemyshot1end';
 				a.setUpdateFunction(AngleTowardsVelocity);
+				a.setCompleteFunction(stopMoving);
+				a.setHitFunction(defaultHit);
+			case AttackTypes.STUN_SHOT:
+				a.hitShip = false;
+				a.hitPlayer = true;
+				a.acceleration.set();
+				a.setSize(10, 10);
+				a.attackDelay = .1;
+				a.damage = 2;
+				a.inaccuracy = 30;
+				a.velocity.set(0, -200);
+				a.centerOffsets();
+				a.fireAnim = 'stunshot1';
+				a.endAnim = 'stunshot1end';
+				//a.setUpdateFunction(AngleTowardsVelocity);
 				a.setCompleteFunction(stopMoving);
 				a.setHitFunction(defaultHit);
 			default:

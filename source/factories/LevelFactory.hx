@@ -13,25 +13,14 @@ class LevelFactory
 		var level:Level;
 		switch (key) 
 		{
-		
-			case 'lose':
-				level = new Level(45);
+		case 'lose' :
+				level = new Level(30);
 				level.name = key;
-				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
-				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
-				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
-				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
-				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
-				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
-				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
-				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
-				level.addWave(new Wave(10, 3, EnemyTypes.BIKER));
-				level.addWave(new Wave(10, 3, EnemyTypes.BIKER));
-				//level.addWave(new Wave(15, 3, EnemyTypes.BIKER));
-				//level.addWave(new Wave(15, 2, EnemyTypes.BIKER));
-				level.addWave(new Wave(15, 2, EnemyTypes.BIKER));
-		case 'test':
-				level = new Level(45);
+				level.addWave(new Wave(3, 30, EnemyTypes.BIKER));
+				level.addWave(new Wave(3, 30, EnemyTypes.BIKER));
+			
+		case 'Getting Started':
+				level = new Level(30);
 				level.name = key;
 				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
 				level.addWave(new Wave(10, 3, EnemyTypes.BIKER));
@@ -39,9 +28,50 @@ class LevelFactory
 				//level.addWave(new Wave(15, 3, EnemyTypes.BIKER));
 				//level.addWave(new Wave(15, 2, EnemyTypes.BIKER));
 				level.addWave(new Wave(15, 2, EnemyTypes.BIKER));
+		case 'Bikers Attack':
+				level = new Level(40);
+				level.name = key;
+				level.addWave(new Wave(1, 3, EnemyTypes.SHOOT_BIKER));
+				level.addWave(new Wave(10, 3, EnemyTypes.SHOOT_BIKER));
+				level.addWave(new Wave(10, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(20, 5, EnemyTypes.SHOOT_BIKER));
+				level.addWave(new Wave(20, 5, EnemyTypes.BIKER));
+		case 'Onslaught':
+				level = new Level(45);
+				level.name = key;
+				level.addWave(new Wave(1, 3, EnemyTypes.SHOOT_BIKER));
+				level.addWave(new Wave(10, 3, EnemyTypes.SHOOT_BIKER));
+				level.addWave(new Wave(10, 3, EnemyTypes.SHOOT_BIKER));
+				level.addWave(new Wave(20, 5, EnemyTypes.SHOOT_BIKER));
+				level.addWave(new Wave(20, 15, EnemyTypes.BIKER));
+		case 'Drones':
+				level = new Level(45);
+				level.name = key;
+				level.addWave(new Wave(3, 3, EnemyTypes.DRONE));
+				level.addWave(new Wave(15, 3, EnemyTypes.DRONE));
+				level.addWave(new Wave(30, 3, EnemyTypes.DRONE));
+				level.addWave(new Wave(30, 4, EnemyTypes.BIKER));
+		case 'Mixed Force':
+				level = new Level(35);
+				level.name = key;
+				level.addWave(new Wave(3, 3, EnemyTypes.DRONE));
+				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(3, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(3, 3, EnemyTypes.SHOOT_BIKER));
+				level.addWave(new Wave(15, 3, EnemyTypes.DRONE));
+				level.addWave(new Wave(20, 3, EnemyTypes.BIKER));
+				
+		case 'Pyramids':
+				level = new Level(45);
+				level.name = key;
+				level.addWave(new Wave(3, 3, EnemyTypes.PYRAMID));
+				level.addWave(new Wave(20, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(25, 3, EnemyTypes.BIKER));
+				level.addWave(new Wave(25, 1, EnemyTypes.PYRAMID));
 
 			default:
-				level = new Level(5);
+				level = new Level(1);
+				level.name = key;
 				
 		}
 		

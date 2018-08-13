@@ -26,6 +26,7 @@ class Wave
 		enemies = [];
 		spawnPosition = new FlxPoint();
 		enemyCount = numberOfEnemies;
+		enemyType = type;
 	}
 	
 	

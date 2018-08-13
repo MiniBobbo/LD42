@@ -67,8 +67,10 @@ class Ship extends Entity
 		{
 			case 'lightspeed':
 				toggleThrust(false);
+				H.levelScore = this.hp;
+				trace('Level Score is now ' +H.levelScore);
 				thrustTimer.start(1.5, function(_) {
-					FlxTween.tween(this, {x:3000}, .2, {ease:FlxEase.elasticInOut});
+					FlxTween.tween(this, {x:3000}, 1, {ease:FlxEase.elasticInOut});
 					FlxG.camera.flash(FlxColor.WHITE, .1);
 				});
 			
