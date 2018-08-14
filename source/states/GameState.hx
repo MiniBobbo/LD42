@@ -238,6 +238,11 @@ class GameState extends FlxState
 		
 		super.update(elapsed);
 		if (state == LevelState.PLAYING) {
+			if (InputHelper.isButtonJustPressed('weaponup'))
+				hud.weaponUp();
+			if (InputHelper.isButtonJustPressed('weapondown'))
+				hud.weaponDown();
+			
 			hud.update(elapsed);
 			var pos = FlxG.mouse.getPosition();
 			camTarget.x = (p.x + pos.x)/2;

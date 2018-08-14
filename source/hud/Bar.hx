@@ -30,8 +30,8 @@ class Bar extends FlxSpriteGroup implements ISignal
 		super();
 		var b1 = new FlxSprite();
 		b1.frames = H.getFrames();
-		b1.animation.frameName = 'ShipHealthBar_baroutline_0';
-		b1.setSize(200, 20);
+		b1.animation.frameName = 'ShipHealthBar_0';
+		b1.setSize(100, 20);
 		b1.centerOffsets();
 		b1.scrollFactor.set();
 		

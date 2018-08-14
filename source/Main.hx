@@ -15,16 +15,17 @@ class Main extends Sprite
 		InputHelper.init();
 		InputHelper.allowWASD();
 		InputHelper.allowArrowKeys();
+		InputHelper.addButton('weaponup');
+		InputHelper.addButton('weapondown');
+		InputHelper.assignKeyToButton('Q', 'weapondown');
+		InputHelper.assignKeyToButton('E', 'weaponup');
+		
 		super();
 		
 		H.defaultGameDef = {
-			rankings: [
-			{name:'test', rank:0},
-			{name:'level', rank:0}
-			
-			
-			]
-			
+			rankings: [],
+			starsSpent:0,
+			weaponsPurchased:[]
 		};
 		
 		addChild(new FlxGame(400, 400, MenuState));

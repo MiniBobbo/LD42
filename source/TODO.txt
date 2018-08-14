@@ -1,41 +1,22 @@
-MVP
-* Basic Main Menu w/ title
-* Win State
-* Lose State
-* Sound
-* Enemy can shoot the player
-* Single level with multiple waves of enemies
-* One enemy type
-* Enemy can shoot the ship
-* Ship can be destroyed
-* Music
-
 Phase 1
-*Minimap that show the player, ship and enemies
-*Ship Health bar
-
-
-
+Level Start cutscene
+Additional attacks
+* Enemies explode
 
 Optional
 Ship thruster sound that changes based on proximity
 
-Music/Sound 
-* Main Menu music
-* Level Music
-* Win Music
-* Lose Music
-* Player Shot
-* Explosion
-* Player Hit (shield)
-* Player Hit (stunned)
-*Bling (like Mario getting a coin.  Will be used when the player receives stars)
-* Ship Hit
-* Enemy Shot
-Menu sounds (hover and button press)
-* Alarm for incoming wave
 
-Phase 1
-Level Start cutscene
-Additional attacks
-Enemies explode
+Weapon options
+Default weapon is a fast firing low damage attack
+Slow firing, fast travel high damage attack
+Slow firing, slow travel, exploding area damage attack
+Shotgun style, slow fire, low damage but many shots
+Laser that does constant damage over time.  
+Piercing laser shot.  Medium damage, medium speed.
+
+Accessories option
+Fast travel
+Increased shield size
+Stun time decrease
+Teleport to ship instantly

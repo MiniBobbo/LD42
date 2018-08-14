@@ -4,6 +4,7 @@ import enemies.Enemy.EnemyTypes;
 import enemies.biker.Biker;
 import enemies.biker.ShootBiker;
 import enemies.drone.Drone;
+import enemies.drone.SpeedDrone;
 import enemies.gunship.Gunship;
 import enemies.pyramid.Pyramid;
 
@@ -22,6 +23,8 @@ class EnemyFactory
 				e = new Biker();
 			case EnemyTypes.DRONE:
 				e = new Drone();
+			case EnemyTypes.SPEED_DRONE:
+				e = new SpeedDrone();
 			case EnemyTypes.PYRAMID:
 				e = new Pyramid();
 			case EnemyTypes.SHOOT_BIKER:

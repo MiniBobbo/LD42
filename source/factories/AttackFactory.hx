@@ -41,6 +41,21 @@ class AttackFactory
 				a.setUpdateFunction(AngleTowardsVelocity);
 				a.setCompleteFunction(stopMoving);
 				a.setHitFunction(defaultHit);
+			case AttackTypes.SHOTGUN:
+				a.soundFX = SM.SoundTypes.LASER;
+				a.endFX = SM.SoundTypes.LASERHIT;
+				a.acceleration.set();
+				a.setSize(10, 10);
+				a.attackDelay = .5;
+				a.damage = 1;
+				a.inaccuracy = 10;
+				a.velocity.set(0, -700);
+				a.centerOffsets();
+				a.fireAnim = 'shot';
+				a.endAnim = 'shotend';
+				a.setUpdateFunction(AngleTowardsVelocity);
+				a.setCompleteFunction(stopMoving);
+				a.setHitFunction(defaultHit);
 			case AttackTypes.ENEMYSHOT1:
 				a.hitShip = true;
 				a.hitPlayer = false;

@@ -9,6 +9,7 @@ import format.swf.data.consts.SoundType;
 
 enum AttackTypes {
 	SHOT;
+	SHOTGUN;
 	ENEMYSHOT1;
 	STUN_SHOT;
 }

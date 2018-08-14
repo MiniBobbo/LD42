@@ -4,6 +4,7 @@ import entities.Entity;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+import flixel.input.FlxAccelerometer;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -18,9 +19,13 @@ import signal.ISignal;
 class HUD extends FlxSpriteGroup implements ISignal
 {
 
+	var WEAPON_ICON_X:Float = 120;
+	var WEAPON_ICON_Y:Float = 360;
+	var WEAPON_ICON_SPACE:Float = 60;
+	
 	var shipSticker:FlxSprite;
 
-	var START_POS:Float = -30;
+	var START_POS:Float = 0;
 	var LENGTH:Float = 400;
 
 	//var MAP_LOC_X:Float = 310;
@@ -34,8 +39,12 @@ class HUD extends FlxSpriteGroup implements ISignal
 	var line:FlxSprite;
 	var shipPointer:FlxSprite;
 	
+	var weaponIcons:Array<WeaponIcon>;
+	//This is the index of the weapon icon that is selected to make moving it around easier.
+	var weaponSelected:Int = 0;
+	
 	public var minimapMarkers:FlxTypedSpriteGroup<MinimapMarker>;
-
+	
 	var shipHealth:Bar;
 	
 	var shipText:FlxText;
@@ -50,10 +59,13 @@ class HUD extends FlxSpriteGroup implements ISignal
 
 		minimapMarkers = new FlxTypedSpriteGroup<MinimapMarker>();
 		
+		weaponIcons = createWeaponIcons();
+		trace('Player has weapons: ' + weaponIcons);
+		
 		scrollFactor.set();
 		line = new FlxSprite();
 		line.frames = H.getFrames();
-		line.animation.frameName = 'travelbar';
+		line.animation.frameName = 'travelbar_1';
 		line.scrollFactor.set();
 
 		shipSticker = new FlxSprite();
@@ -83,7 +95,7 @@ class HUD extends FlxSpriteGroup implements ISignal
 
 		shipHealth = new Bar(H.getShip(), 'hp', 100);
 		shipHealth.scrollFactor.set();
-		shipHealth.y = FlxG.height - 20;
+		shipHealth.setPosition(0, FlxG.height - 20);
 		
 		shipText = new FlxText(shipHealth.x, shipHealth.y-5, 0, 'Ship Health');
 		shipText.setFormat(null, 10, FlxColor.WHITE, null, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -96,6 +108,8 @@ class HUD extends FlxSpriteGroup implements ISignal
 		add(shipMarker);
 		add(playerMarker);
 		add(shipHealth);
+		for (i in weaponIcons)
+			add(i);
 		add(shipText);
 		
 	}
@@ -167,8 +181,6 @@ class HUD extends FlxSpriteGroup implements ISignal
 			FlxSpriteUtil.fadeOut(shipPointer);
 			FlxSpriteUtil.fadeOut(line);
 			FlxSpriteUtil.fadeOut(H.gs.crosshair);
-			
-			
 		}
 	}
 
@@ -188,5 +200,41 @@ class HUD extends FlxSpriteGroup implements ISignal
 		return m;
 		
 	}
+	
+	private function createWeaponIcons():Array<WeaponIcon> {
+		var w:Array<WeaponIcon> = [];
+		var def = H.getPlayerDef();
+		var count = 0;
+		for (a in def.attackOptions) {
+			var icon = new WeaponIcon(a);
+			w.push(icon);
+			icon.setPosition(WEAPON_ICON_X + WEAPON_ICON_SPACE * count, WEAPON_ICON_Y);
+			count++;
+		}
+		
+		return w;
+	}
+	
+	public function weaponUp() {
+		weaponSelected++;
+		if (weaponSelected >= weaponIcons.length) {
+			weaponSelected = 0;
+		}
+		chooseWeapon(weaponSelected);
+	}
+	public function weaponDown() {
+		weaponSelected--;
+		if (weaponSelected < 0) 
+			weaponSelected = weaponIcons.length - 1;
+		chooseWeapon(weaponSelected);
+	}
+	
+	private function chooseWeapon(newWeaponIndex:Int) {
+		for (i in weaponIcons)
+			i.color = FlxColor.WHITE;
+		weaponIcons[newWeaponIndex].color = FlxColor.YELLOW;
+		H.getPlayer().getSignal('changeweapon', weaponIcons[newWeaponIndex].type);
+	}
+	
 	
 }

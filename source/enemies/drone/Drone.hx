@@ -18,13 +18,12 @@ class Drone extends Enemy
 
 	var timer:FlxTimer;
 	var ACCEL:Float = 600;
-	var MAX_SPEED:Float = 100;
+	public var MAX_SPEED:Float = 100;
 	
 	var FIRE_DISTANCE:Float = 700;
-	var STOP_DISTANCE:Float = 400;
 	
 	var SHOT_SPEED:Float = 200;
-	
+	var STOP_DISTANCE:Float = 300;
 	
 	public function new() 
 	{

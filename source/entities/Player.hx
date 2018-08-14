@@ -2,6 +2,7 @@ package entities;
 
 import attacks.UnivAttack;
 import attacks.UnivAttack.AttackTypes;
+import defs.PlayerDef;
 import factories.AttackFactory;
 import factories.EffectFactory;
 import flixel.FlxG;
@@ -26,10 +27,11 @@ class Player extends Entity
 	var attackDelay:Float;
 	
 	var attack:AttackTypes;
-	
 	public var stunTime:Float;
 	
 	public var stunned:Bool = false;
+	
+	private var def:PlayerDef;
 	
 	public var arm:FlxSprite;
 	public var shield:FlxSprite;
@@ -38,8 +40,12 @@ class Player extends Entity
 	public function new() 
 	{
 		super();
-		attack = AttackTypes.SHOT;
+		
+		attack = AttackTypes.SHOTGUN;
 		attackOffset = new FlxPoint(0, -20);
+		
+		
+		def= H.getPlayerDef();
 		
 		frames = H.getFrames();
 		animation.addByPrefix('forward', 'player_forward_', 1, false);
@@ -62,6 +68,7 @@ class Player extends Entity
 		thrustTimer = new FlxTimer();
 		toggleThrust();
 	}
+	
 	
 	public function registerArm(arm:FlxSprite) {
 		this.arm = arm;
@@ -91,8 +98,6 @@ class Player extends Entity
 	public function shoot() {
 		if (attackDelay > 0)
 		return;
-		var a = H.getPlayerAttack();
-		AttackFactory.configAttack(a, attack);
 		
 		//Find the location we should spawn the shot.
 		var p = FlxPoint.get().copyFrom(attackOffset);
@@ -100,10 +105,41 @@ class Player extends Entity
 		var mp = getMidpoint();
 		p.x += mp.x;
 		p.y += mp.y;
-		a.initAttack(p, 3);
-		a.velocity.rotate(FlxPoint.weak(), arm.angle + FlxG.random.float(-a.inaccuracy, a.inaccuracy) );
 		
-		attackDelay = a.attackDelay;
+		//This will be the final attack delay.  I used to use the UnivAttack value, but some attacks may fire different types, so set this in the specific attack.
+		var weaponAttackDelay:Float = 1;
+		
+		switch (attack) 
+		{
+			case AttackTypes.SHOT:
+				var a = H.getPlayerAttack();
+				AttackFactory.configAttack(a, attack);
+				a.initAttack(p, 3);
+				a.velocity.rotate(FlxPoint.weak(), arm.angle + FlxG.random.float( -a.inaccuracy, a.inaccuracy) );
+				weaponAttackDelay = a.attackDelay;
+			case AttackTypes.SHOTGUN:
+				for (i in 0...5) {
+					var a = H.getPlayerAttack();
+					AttackFactory.configAttack(a, attack);
+					a.initAttack(p, 3);
+					a.velocity.rotate(FlxPoint.weak(), arm.angle + FlxG.random.float( -a.inaccuracy, a.inaccuracy) );
+					weaponAttackDelay = a.attackDelay;
+				}
+				
+				
+			default:
+				
+		}
+		
+		attackDelay = weaponAttackDelay;
+	}
+	
+	/**
+	 * Sets a new attack type for the player.  This is normally set by the HUD, which has all the icons and stuff.
+	 * @param	newAttack		The new attack type to equip
+	 */
+	public function setAttackType(newAttack:AttackTypes) {
+		
 	}
 	
 	override public function getSignal(signal:String, ?data:Dynamic):Void 
@@ -124,7 +160,9 @@ class Player extends Entity
 				SM.play(SM.SoundTypes.PLAYER_HIT);
 				stunTime = a.damage;
 				fsm.changeState('stun');
-			
+			case 'changeweapon':
+				attack = cast data;
+				
 			default:
 				
 		}

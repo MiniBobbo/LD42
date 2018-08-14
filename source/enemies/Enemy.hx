@@ -7,6 +7,7 @@ import flixel.util.FlxColor;
 enum EnemyTypes {
 	BIKER;
 	DRONE;
+	SPEED_DRONE;
 	PYRAMID;
 	SHOOT_BIKER;
 	GUNSHIP;

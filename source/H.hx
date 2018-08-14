@@ -1,6 +1,7 @@
 package;
 import attacks.UnivAttack;
 import defs.GameDef;
+import defs.PlayerDef;
 import defs.RankDef;
 import enemies.Enemy;
 import entities.Player;
@@ -25,6 +26,7 @@ class H
 	public static var levelScore:Float;
 	
 	public static var gameDef:GameDef;
+	public static var playerDef:PlayerDef;
 	public static var defaultGameDef:GameDef;
 
 	
@@ -81,6 +83,22 @@ class H
 	
 	public static function getFrames():FlxAtlasFrames {
 		return FlxAtlasFrames.fromTexturePackerJson('assets/images/SpaceRun.png', 'assets/images/SpaceRun.json'); 
+	}
+	
+	/**
+	 * If there isn't a player def, load a default one.
+	 * @return		Default playerDef
+	 */
+	private static function getDefaultPlayerDef():PlayerDef {
+		return {
+			attackOptions: [AttackTypes.SHOT, AttackTypes.SHOTGUN]
+		};
+	}
+
+	public static function getPlayerDef():PlayerDef {
+		if (playerDef == null) 
+			return getDefaultPlayerDef();
+		return playerDef;
 	}
 	
 	public static function setLevel(l:Level) {
@@ -161,11 +179,29 @@ class H
 		}
 		H.gameDef = Json.parse(save.data.d);
 		
+		upgradeGameData(H.gameDef);
+		
 		save.close();
 		
 		if (gameDef == null)
 		return false;
 		return true;
+	}
+	
+	/**
+	 * This adds any missing fields to the gamedef so players don't have to reset.
+	 * @param	data
+	 */
+	private static function upgradeGameData(data:GameDef) {
+		trace('Pre upgrade: ' + data);
+		if (data.starsSpent == null)
+			data.starsSpent = 0;
+		if (data.weaponsPurchased == null)
+			data.weaponsPurchased = [];
+			
+		trace('Post upgrade: ' + data);
+			
+		
 	}
 	
 	public static function clearSave() {

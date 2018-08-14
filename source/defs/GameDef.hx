@@ -5,5 +5,9 @@ package defs;
  */
 typedef GameDef =
 {
-	var rankings:Array<RankDef>;	
+	
+	var rankings:Array<RankDef>;
+	@:optional var starsSpent:Int;
+	@:optional var weaponsPurchased:Array<Int>;
+	
 }
