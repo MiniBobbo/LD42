@@ -1,5 +1,6 @@
 package hud;
 
+import enemies.Enemy.EnemyTypes;
 import entities.Entity;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -32,7 +33,7 @@ class MinimapMarker extends FlxSprite
 	
 	override public function update(elapsed:Float):Void 
 	{
-		if (parent == null || !parent.alive) {
+		if (parent == null || !parent.alive && parent.type != EnemyTypes.GUNSHIP) {
 			kill();
 			return;
 		}

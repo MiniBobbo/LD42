@@ -11,6 +11,8 @@ enum SoundTypes
 	SHIELD_BLOCK;
 	PLAYER_HIT;
 	NEW_WAVE;
+	SHIPWARP;
+	PLAYER_DISAPPEAR;
 }
 
 class SM
@@ -36,6 +38,10 @@ class SM
 				FlxG.sound.play('assets/sounds/shield.wav');
 			case SoundTypes.NEW_WAVE:
 				FlxG.sound.play('assets/sounds/enemy_wave.wav');
+			case SoundTypes.SHIPWARP:
+				FlxG.sound.play('assets/sounds/warp.wav');
+			case SoundTypes.PLAYER_DISAPPEAR:
+				FlxG.sound.play('assets/sounds/playerdisappear.wav');
 				
 				
 				

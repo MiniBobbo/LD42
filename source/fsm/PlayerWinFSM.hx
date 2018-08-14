@@ -44,6 +44,7 @@ class PlayerWinFSM extends FSMModule
 	}
 	
 	function disappear(_) {
+		SM.play(SM.SoundTypes.PLAYER_DISAPPEAR);
 		p.animation.play('disappear');
 		MM.fadeMusic(3);
 		H.signalAll('lightspeed');

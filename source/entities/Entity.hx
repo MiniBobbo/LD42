@@ -1,5 +1,6 @@
 package entities;
 
+import enemies.Enemy.EnemyTypes;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
@@ -20,6 +21,7 @@ class Entity extends FlxSprite implements IFSM implements ISignal
 	var hp:Float = -1;
 	
 	var fsm:FSM;
+	public var type:EnemyTypes;
 	
 	public var minimapColor:FlxColor;
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
@@ -61,6 +63,10 @@ class Entity extends FlxSprite implements IFSM implements ISignal
 			default:
 				
 		}
+	}
+	
+	public function setHP(hp:Float) {
+		this.hp = hp;
 	}
 
 }

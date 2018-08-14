@@ -9,6 +9,7 @@ enum EnemyTypes {
 	DRONE;
 	PYRAMID;
 	SHOOT_BIKER;
+	GUNSHIP;
 }
 
 class Enemy extends Entity 

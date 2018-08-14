@@ -72,6 +72,7 @@ class Ship extends Entity
 				thrustTimer.start(1.5, function(_) {
 					FlxTween.tween(this, {x:3000}, 1, {ease:FlxEase.elasticInOut});
 					FlxG.camera.flash(FlxColor.WHITE, .1);
+					SM.play(SM.SoundTypes.SHIPWARP);
 				});
 			
 			case 'hit':

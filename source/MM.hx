@@ -7,6 +7,7 @@ enum MusicTypes {
 	VICTORY;
 	DEFEAT;
 	MENU;
+	PURSUER;
 }
 
 /**
@@ -16,7 +17,10 @@ enum MusicTypes {
 class MM 
 {
 
+	public static var currentMusic:MusicTypes;
+	
 	public static function play(type:MusicTypes) {
+		currentMusic  = type;
 		switch (type) 
 		{
 			case MusicTypes.BATTLE:
@@ -26,7 +30,9 @@ class MM
 			case MusicTypes.DEFEAT:
 				FlxG.sound.playMusic('assets/music/you_lose.mp3', 1, false);
 			case MusicTypes.MENU:
-				FlxG.sound.playMusic('assets/music/space_menu.mp3', 1, false);
+				FlxG.sound.playMusic('assets/music/space_menu.mp3', 1);
+			case MusicTypes.PURSUER:
+				FlxG.sound.playMusic('assets/music/pursuer.mp3', 1);
 				
 			default:
 				fadeMusic();

@@ -57,6 +57,10 @@ class MenuState extends FlxState
 		addLevel('Drones');
 		addLevel('Mixed Force');
 		addLevel('Pyramids');
+		addLevel('Incoming');
+		addLevel('Gunship');
+		addLevel('Crazy');
+		addLevel('Insane');
 		
 		
 		
